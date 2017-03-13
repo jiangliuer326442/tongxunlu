@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>群管理</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/iconfont.css">
+		<style type="text/css">
+			html,
+			body {
+				height: 100%;
+				overflow: hidden;
+			}
+			.mui-bar {
+				-webkit-box-shadow: none;
+				box-shadow: none;
+			}
+			#topPopover {
+				position: fixed;
+				top: 16px;
+				right: 6px;
+				width: 7em;
+				height: 135px;
+			}
+			#topPopover .mui-popover-arrow {
+				left: auto;
+				right: 6px;
+			}
+			#topPopover .mui-content {
+				padding: 10px;
+			}
+			#topPopover .mui-icon{
+				margin-left: 0px;
+			}
+			p {
+				text-indent: 22px;
+			}
+			span.mui-icon {
+				font-size: 14px;
+				color: #007aff;
+				margin-left: -15px;
+				padding-right: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">群管理</h1>
+			<button id="refreshgroup_btn" class="mui-btn mui-btn-blue mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-reload"></span>刷新</button>
+			<a href="#topPopover" class="mui-action-menu mui-icon mui-icon-bars mui-pull-right"></a>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view">
+			</ul>
+		</div>
+		<div id="topPopover" class="mui-popover">
+			<div class="mui-popover-arrow"></div>
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">
+							<a href="#" id="build_group"><span class="mui-icon iconfont icon-chuangjianxiaozu"></span>新建</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href="#" id="scan"><span class="mui-icon iconfont icon-saoyisao"></span>扫一扫</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href="#" id="add_group"><span class="mui-icon iconfont icon-jiaru"></span>加入</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div id="group_option" class="mui-popover mui-popover-action mui-popover-bottom">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a href="#" id="gmember_btn">成员列表</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a href="#" id="ginfo_btn">群信息</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a href="#" id="delgroup_btn">退出群</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a href="#group_option"><b>取消</b></a>
+				</li>
+			</ul>
+		</div>
+	</body>
+	<script src="js/mui.min.js"></script>
+	<script src="js/common.js"></script>
+	<script>
+		var current_gnumber = null;
+		var current_gname = null;
+		var current_elem = null;
+		
+		mui.plusReady(function() {
+			var nowGroups = plus.storage.getItem("nowGroups");
+			if(nowGroups && nowGroups != "[]"){
+				setGroups(nowGroups);
+			}else if(nowGroups == "[]"){
+				mui(".mui-content")[0].innerHTML = "<div id='build-group' style='background: url(images/group_empty.jpg); width:100%; height:300px; background-size:100% 100%;'></div>";
+				mui("#build-group")[0].addEventListener("tap",function(){
+				    mui.openWindow({
+				      url:'buildgroup.html',
+				      id:'buildgroup.html'
+				    });
+				});
+			}else{
+				mui.fire(plus.webview.currentWebview(),"refresh");
+			}
+		});
+		
+		mui("#build_group")[0].addEventListener("tap",function(){
+		    mui.openWindow({
+		      url:'buildgroup.html',
+		      id:'buildgroup.html'
+		    });
+		    mui('#topPopover').popover('toggle');
+		});
+		mui("#scan")[0].addEventListener('tap',function(){
+			mui.openWindow({url:"scan.html",id:"scan.html"});
+			mui('#topPopover').popover('toggle');
+		});
+		mui("#add_group")[0].addEventListener("tap",function(){
+		    mui.openWindow({
+		      url:'addgroup.html',
+		      id:'addgroup.html'
+		    });
+		    mui('#topPopover').popover('toggle');
+		});
+		mui("#refreshgroup_btn")[0].addEventListener("tap",function(){
+			mui.fire(plus.webview.currentWebview(),"refresh");
+		});
+		mui("#gmember_btn")[0].addEventListener("tap",function(){
+			viewGmembers();
+		    mui('#group_option').popover('toggle');
+		});
+		mui("#ginfo_btn")[0].addEventListener("tap",function(){
+			var webview = mui.preload({url:"ginfo.html",id:"ginfo.html"});
+			mui.fire(webview,"setGroupInfo",{gname: current_gname, gnumber: current_gnumber});
+			mui.openWindow({id: "ginfo.html"});
+		    mui('#group_option').popover('toggle');
+		});
+		mui("#delgroup_btn")[0].addEventListener("tap",function(){
+			deleteGroup();
+		    mui('#group_option').popover('toggle');
+		});
+		//添加newId自定义事件监听
+		window.addEventListener('refresh',function(event){
+		  	getToken(function(token){
+				mui.ajax(server+'/listgroup',{
+					data:{
+						token: token
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+						if(data.status==200){
+							plus.storage.setItem("nowGroups", JSON.stringify(data.data));
+							window.location.reload();
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log(errorThrown);
+					}
+				});
+			});
+		});
+		//查看群成员
+		function viewGmembers(){
+			var GroupWebview = mui.preload({
+			    url:"gmembers.html",
+			    id:"gmembers.html",//默认使用当前页面的url作为id
+			});
+		    //触发详情页面的newsId事件
+			  mui.fire(GroupWebview,'refresh',{
+			    gnumber:current_gnumber,
+			    gname: current_gname
+			  });
+			//打开详情页面          
+			  mui.openWindow({
+			    id:'gmembers.html'
+			  });
+		}
+		//删除群
+		function deleteGroup(){
+		  	getToken(function(token){
+				mui.ajax(server+'/leavegroup',{
+					data:{
+						token: token,
+						number: current_gnumber
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+						if(data.status==200){
+							mui.fire(plus.webview.currentWebview(),"refresh");
+							mui.toast(data.info);
+						}else{
+							mui.alert(data.info);
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log(errorThrown);
+					}
+				});
+			});
+		}
+		function setGroups(groups){
+			var groups = JSON.parse(groups);
+			var str_group = "";
+			for(var i in groups){
+				str_group+= '<li class="mui-table-view-cell" data-gnumber="'+groups[i].number+'" data-gname="'+groups[i].name+'"><div class="mui-slider-handle">'+groups[i].name+'</div><div class="mui-slider-right mui-disabled"><a class="mui-btn mui-btn-primary">查看</a></div></li>';
+			}
+			mui(".mui-table-view")[0].innerHTML = str_group;
+			mui('.mui-table-view-cell').on('tap', '.mui-slider-handle', function(){
+				current_elem = this.parentNode;
+				current_gnumber = current_elem.attributes["data-gnumber"].value;
+				current_gname = current_elem.attributes["data-gname"].value;
+				mui('#group_option').popover('toggle');
+			});
+			mui('.mui-table-view-cell').on('tap', '.mui-btn', function(event) {
+
+			});
+		}
+	</script>
+</html>

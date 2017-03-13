@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+			.mui-input-group {
+				margin-top: 10px;
+			}
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			.mui-input-group label {
+				width: 30%;
+			}
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			.mui-btn {
+				padding: 10px;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" id="back"></a>
+			<h1 class="mui-title">创建群</h1>
+		</header>
+		<div class="mui-content">
+			<form id='login-form' class="mui-input-group">
+				<div class="mui-input-row">
+					<label>群名称</label>
+					<input id='name' type="text" class="mui-input-clear mui-input" placeholder="群名称">
+				</div>
+			</form>
+			<div class="mui-content-padded">
+				<button id='adds' class="mui-btn mui-btn-block mui-btn-primary">完成</button>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/common.js"></script>
+		<script type="text/javascript">
+		
+			document.querySelector("#adds").addEventListener("tap",function(){
+				var name = document.querySelector("#name").value;
+				if(!name){
+					mui.alert("请输入群名称");
+					document.querySelector("#name").value = "";
+					return;
+				}
+				plus.nativeUI.showWaiting( "正在上传..." );
+				getToken(function(token){
+					mui.ajax(server+'/buildgroup',{
+						data:{
+							name: name,
+							token: token
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:5000,//超时时间设置为10秒；
+						success:function(data){
+							plus.nativeUI.closeWaiting();
+						    plus.webview.currentWebview().hide();
+							document.querySelector("#name").value = "";
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							console.log(JSON.stringify(xhr));
+						}
+					});
+				});
+			});
+			mui.back = function(){
+				document.querySelector("#name").value = "";
+			    plus.webview.currentWebview().hide();
+			};
+		</script>
+	</body>
+
+</html>

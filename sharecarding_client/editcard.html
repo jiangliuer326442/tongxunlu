@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+			.mui-input-group {
+				margin-top: 10px;
+			}
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			.mui-input-group label {
+				width: 30%;
+			}
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			.mui-btn {
+				padding: 10px;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" id="back"></a>
+			<h1 class="mui-title">编辑名片</h1>
+			<button id="saves" class="mui-btn mui-btn-primary mui-btn-link mui-pull-right">保存</button>
+		</header>
+		<div class="mui-content">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>公司名称</label>
+					<input id='company' type="text" class="mui-input-clear mui-input" placeholder="现在所在的公司">
+				</div>
+				<div class="mui-input-row">
+					<label>英文名称</label>
+					<input id='e_company' type="text" class="mui-input-clear mui-input" placeholder="公司的英文名称">
+				</div>
+				<div class="mui-input-row">
+					<label>职位</label>
+					<input id='position' type="text" class="mui-input-clear mui-input" placeholder="您的职位">
+				</div>
+				<div class="mui-input-row">
+					<label>公司电话</label>
+					<input id='ctel' type="number" class="mui-input-clear mui-input" placeholder="您或公司的联系方式">
+				</div>
+				<div class="mui-input-row">
+					<label>联系qq</label>
+					<input id='cqq' type="number" class="mui-input-clear mui-input" placeholder="您或公司的qq号">
+				</div>
+				<div class="mui-input-row">
+					<label>公司地址</label>
+					<input id='caddress' type="text" class="mui-input-clear mui-input" placeholder="您或公司的联系地址">
+				</div>
+				<div class="mui-input-row">
+					<label>公司网址</label>
+					<input id='cweb' type="url" class="mui-input-clear mui-input" placeholder="公司网址">
+				</div>
+				<textarea id="cbusiness" class="sharehref" rows="5" placeholder="请输入您或公司的经营业务"></textarea>
+				
+			</form>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/common.js"></script>
+		<script type="text/javascript">
+		var username_patterm = /^[0-9a-zA-Z]*$/g;
+			(function(doc,$){
+				$.plusReady(function(){
+				  	getToken(function(token){
+						mui.ajax(server+'/getmycard',{
+							data:{
+								token: token
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								if(data.status==200){
+									var data = data.data;
+									doc.querySelector("#company").value = data.company == undefined ? "":data.company;
+									doc.querySelector("#e_company").value = data.e_company == undefined ? "":data.e_company;
+									doc.querySelector("#position").value = data.position == undefined ? "":data.position;
+									doc.querySelector("#ctel").value = data.ctel == undefined ? "":data.ctel;
+									doc.querySelector("#cqq").value = data.cqq == undefined ? "":data.cqq;
+									doc.querySelector("#caddress").value = data.caddress == undefined ? "":data.caddress;
+									doc.querySelector("#cweb").value = data.cweb == undefined ? "":data.cweb;
+									doc.querySelector("#cbusiness").value = data.cbusiness == undefined ? "":data.cbusiness;
+								}else{
+									mui.alert(data.info);
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(errorThrown);
+							}
+						});
+					});
+				});
+				doc.querySelector("#saves").addEventListener("tap",function(){
+					var company = doc.querySelector("#company").value;
+					if(!company){
+						$.toast("请填写您所在公司");
+						return;
+					}
+					var e_company = doc.querySelector("#e_company").value;
+					var position = doc.querySelector("#position").value;
+					if(!position){
+						$.toast("请填写您在公司的职位");
+						return;
+					}
+					var ctel = doc.querySelector("#ctel").value;
+					var cqq = doc.querySelector("#cqq").value;
+					var caddress = doc.querySelector("#caddress").value;
+					var cweb = doc.querySelector("#cweb").value;
+					var cbusiness = doc.querySelector("#cbusiness").value;
+					plus.nativeUI.showWaiting("正在保存");
+					getToken(function(token){
+						$.ajax(server+'/editcard',{
+							data:{
+								company: company,
+								e_company: e_company,
+								position: position,
+								ctel: ctel,
+								cqq: cqq,
+								caddress: caddress,
+								cweb: cweb,
+								cbusiness: cbusiness,
+								token: token
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								plus.nativeUI.closeWaiting();
+								if(data.status==200){
+									setTimeout("mui.openWindow({url:'card.html', id:'card.html'})",1000);
+									$.toast("保存成功");
+								}else{
+									$.alert(data.info);
+								}
+							},
+							error:function(xhr,type,errorThrown){
+							}
+						});
+					});
+				}
+				)})(document, mui);
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,403 @@
+.com-container {
+    width: 960px;
+    padding: 0 20px;
+    margin: auto;
+}
+.det-main-container {
+    background: #f5f5f5;
+    position: relative;
+    box-shadow: 0 1px 3px #ddd;
+    margin: 0 auto;
+    padding: 0 0 60px;
+}
+.det-ins-container {
+    padding: 0 0 0 20px;
+    background: #fff;
+    border-bottom: 1px solid #e7e7e7;
+    height: 143px;
+}
+.det-icon {
+    float: left;
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    background: #f5f5f5;
+    _display: inline;
+    margin: 20px 0 0;
+}
+.det-icon img {
+    width: 72px;
+    height: 72px;
+    display: block;
+    margin: 14px auto 0;
+}
+.det-icon .icon-union-safe {
+    background-position: -56px -28px;
+    width: 28px;
+    height: 28px;
+    right: 0;
+    bottom: 0;
+}
+.icon-union-safe {
+    display: none;
+    background-image: url(http://img4.sj.qq.com/res/static/myapp/assets/images/details/baimingdan.gif);
+    background-repeat: no-repeat;
+    position: absolute;
+    text-indent: -500px;
+    overflow: hidden;
+}
+.det-ins-data {
+    float: left;
+    _display: inline;
+    margin: 17px 0 0 20px;
+    width: 510px;
+}
+.det-name {
+    font-size: 24px;
+}
+.det-name-int {
+    float: left;
+    vertical-align: middle;
+    height: 30px;
+    line-height: 30px;
+}
+.clear {
+    dipslay: block!important;
+    float: none!important;
+    clear: both;
+    width: auto!important;
+    margin: 0 auto!important;
+    padding: 0!important;
+    font-size: 0;
+    line-height: 0;
+}
+.det-star-box {
+    height: 20px;
+    line-height: 20px;
+    margin: 14px 0 0;
+}
+.det-star-box .det-ins-star {
+    float: left;
+    vertical-align: middle;
+    display: block;
+    margin: 3px 0 0;
+}
+.com-star-5-O {
+    line-height: 15px;
+    width: 116px;
+    height: 15px;
+    display: inline-block;
+    overflow: hidden;
+    background: url(http://img4.sj.qq.com/res/static/myapp/assets/images/common/com-star-sprite-blue.png?1411873859351) 0 0 no-repeat;
+}
+.det-star-box .com-blue-star-num {
+    float: left;
+    font-size: 18px;
+    color: #666;
+    margin: 0 0 0 10px;
+}
+.det-star-box .det-comment-num {
+    color: #999;
+    float: left;
+}
+a:visited {
+    color: #333;
+    text-decoration: none;
+}
+.det-insnum-line {
+    line-height: 23px;
+    height: 23px;
+    margin: 16px 0 0;
+}
+.det-insnum-line .det-ins-num {
+    margin: 0 3px 0 0;
+    float: left;
+    color: #666;
+}
+.det-insnum-line .det-insnum-dot {
+    margin: 0 8px 0 5px;
+    float: left;
+}
+.det-insnum-line .det-size {
+    margin: 0 3px 0 0;
+    float: left;
+    color: #666;
+}
+.det-insnum-line .det-insnum-dot {
+    margin: 0 8px 0 5px;
+    float: left;
+}
+.det-adv {
+    float: left;
+    color: #666;
+}
+.det-insnum-line .det-type-box {
+    margin: 0 20px 0 0;
+    padding: 0 0 0 30px;
+    float: left;
+}
+.det-type-box {
+    width: 140px;
+    height: 28px;
+    position: relative;
+    display: inline-block;
+    _zoom: 1;
+    _display: inline;
+}
+.det-insnum-line .det-type-box .det-type-tit {
+    float: left;
+    color: #999;
+}
+.det-insnum-line .det-type-box .det-type-link {
+    float: left;
+    display: block;
+    padding: 0 10px;
+    height: 20px;
+    border: 1px solid #d9d9d9;
+    line-height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 2px;
+    color: #666;
+    margin: 0 0 1px 5px;
+}
+.det-type-box .icon-union-safe {
+    width: 56px;
+    height: 56px;
+    right: -76px;
+    bottom: 10px;
+}
+.icon-union-safe {
+    display: none;
+    background-image: url(http://img4.sj.qq.com/res/static/myapp/assets/images/details/baimingdan.gif);
+    background-repeat: no-repeat;
+    position: absolute;
+    text-indent: -500px;
+    overflow: hidden;
+}
+.det-ins-btn-box {
+    float: right;
+    margin: 0 65px 0 0;
+}
+.det-ins-btn-box .det-ins-btn {
+    font-size: 16px;
+    display: block;
+    height: 40px;
+    width: 160px;
+    line-height: 42px;
+    padding: 0;
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+    background: url(http://img2.sj.qq.com/res/static/myapp/assets/images/details/detail-ins-btn.png?1411873859369);
+    margin: 24px 0 0;
+}
+.det-ins-btn-box a, .det-close-btn, .comment-submit-btn, .det-comment-show-more-btn, .C_AlertIcon {
+    background-image: url(http://img2.sj.qq.com/res/static/myapp/assets/images/details/detail-ins-btn.png?1411873859369);
+}
+.det-ins-btn-box .det-down-btn {
+    font-size: 16px;
+    display: block;
+    height: 40px;
+    width: 160px;
+    line-height: 42px;
+    padding: 0;
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+    background: url(http://img2.sj.qq.com/res/static/myapp/assets/images/details/detail-ins-btn.png?1411873859369);
+    margin: 14px 0 0;
+    background-position: 0 -40px;
+}
+.det-pic-scroll-container {
+    margin: 14px 20px 0;
+    overflow: hidden;
+    _display: inline;
+    _zoom: 1;
+    position: relative;
+    height: 300px;
+}
+.det-pic-scroll-container .pic-turn-hover-box {
+    margin: 0 auto;
+    width: 920px;
+    position: relative;
+    display: block;
+    cursor: default;
+    overflow: hidden;
+}
+.det-pic-scroll-container .pic-turn-hidden-box {
+    width: 920px;
+    display: block;
+    left: 0;
+    overflow: hidden;
+    top: 0;
+}
+.det-pic-scroll-container .pic-turn-img-box {
+    position: relative;
+    display: block;
+    width: 9999px;
+    height: auto;
+    margin: 0;
+}
+.det-pic-scroll-container .pic-img-box {
+    display: inline-block;
+    margin: 0 0 10px;
+    float: left;
+    position: relative;
+}
+.det-pic-scroll-container .pic-turn-img-box img {
+    position: relative;
+    display: none;
+    float: left;
+    margin: 0;
+    padding: 0 15px 0 0;
+    zoom: 1;
+}
+.det-pic-scroll-container .det-pic-loading {
+    height: 60px;
+    width: 60px;
+    background: url(http://img4.sj.qq.com/res/static/myapp/assets/images/details/pics-loading.gif?1411873859369);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: -30px 0 0 -30px;
+}
+.det-othinfo-container {
+    display: block;
+    height: 20px;
+    clear: both;
+    position: relative;
+    color: #999;
+    margin: 3px 0 15px 20px;
+    _margin: 13px 0 15px 20px;
+}
+.det-othinfo-container .det-othinfo-tit {
+    float: left;
+}
+.det-othinfo-container .det-othinfo-data {
+    float: left;
+    margin: 0 30px 0 0;
+}
+.det-intro-container {
+    margin: 0 20px;
+}
+.det-intro-container .det-intro-tit {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 0 4px;
+}
+.det-intro-container .det-intro-text {
+    color: #666;
+    line-height: 21px;
+    margin: 0 0 4px;
+    height: 63px;
+    overflow: hidden;
+}
+.det-intro-container .det-intro-showmore {
+    color: #237ded;
+}
+.det-submit-container {
+    margin: 20px 18px 0 20px;
+}
+.det-submit-tit {
+    font-size: 16px;
+    font-weight: 700;
+}
+.det-comment-list-container {
+    margin: 15px 18px 0 20px;
+}
+.det-comment-list-box {
+    border-top: 1px solid #dcdcdc;
+    clear: both;
+}
+.det-comment-list-every {
+    border-bottom: 1px solid #dcdcdc;
+    padding: 15px 0;
+    zoom: 1;
+}
+.det-comment-info {
+    float: left;
+    width: 820px;
+    margin: 0 0 0 10px;
+}
+.det-comment-info .comment-name-line {
+    line-height: 20px;
+}
+.det-comment-info .comment-name-line .comment-name {
+    font-weight: 700;
+    float: left;
+}
+.det-comment-info .comment-name-line .commont-star {
+    float: left;
+    margin: 4px 0 0 15px;
+}
+.com-star-lit-5-O {
+    line-height: 9px;
+    width: 60px;
+    height: 9px;
+    display: inline-block;
+    overflow: hidden;
+    background: url(http://img2.sj.qq.com/res/static/myapp/assets/images/common/com-star-lit-sprite-blue.png?1411873859363) 0 0 no-repeat;
+}
+.det-comment-info .comment-name-line .comment-date {
+    float: right;
+    color: #b0b0b0;
+}
+.det-comment-info .comment-datatext {
+    line-height: 20px;
+    margin: 6px 0 0;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+a.det-comment-show-more-btn {
+    width: 125px;
+    height: 30px;
+    display: none;
+    text-align: center;
+    line-height: 30px;
+    margin: 15px auto 0;
+    color: #666;
+    background: #f5f5f5;
+    border: 1px solid #c4c4c4;
+}
+.det-submit-none {
+    text-align: center;
+    color: #999;
+    display: none;
+    margin: 10px 0 0;
+}
+.com-footer {
+    margin: 30px 0 0;
+    padding: 30px 0;
+    background: #333;
+    line-height: 20px;
+    color: #989898;
+    position: relative;
+}
+.com-footer .com-footer-top-box {
+    width: 890px;
+    margin: auto;
+    text-align: center;
+    height: 150px;
+    zoom: 1;
+    position: relative;
+}
+.com-footer .com-footer-top-box .com-footer-top-item {
+    width: 33.3%;
+    float: left;
+    text-align: left;
+    position: relative;
+}
+.com-footer .com-footer-top-box .com-footer-top-item h3 {
+    font-size: 16px;
+    line-height: 30px;
+    margin-bottom: 20px;
+    color: #fff;
+}
+.com-footer .com-footer-top-box .com-footer-top-item p {
+    display: block;
+}
+.com-footer .com-footer-top-box .com-footer-top-item a, .com-footer .com-footer-top-box .com-footer-top-item p {
+    font-size: 14px;
+    color: #999;
+}

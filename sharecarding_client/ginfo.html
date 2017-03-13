@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>乐享名片</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/iconfont.css">
+		<style>
+			#qrcode {
+				width: 300px;
+				height: 300px;
+				border: solid 1px #bbb;
+				margin: 10px auto 50px auto;
+				background-color: #fff;
+			}
+			h5 {
+				margin: 5px 7px;
+			}
+			.mui-icon-clear{ right: 26% !important;}
+		</style>
+		<script src="js/mui.min.js"></script>
+		<script src="js/qrcode.js"></script>
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">群信息</h1>
+			<a onclick="shareHref()" class="mui-action-menu mui-icon iconfont icon-fenxiang mui-pull-right"></a>
+		</header>
+		<div class="mui-content">
+			<div class="mui-content-padded" style="margin: 5px;">
+				<div class="mui-input-group">
+					<div class="mui-input-row">
+						<label>群名称</label>
+						<label id="gname" style="width: 50%;"></label>
+					</div>
+					<div class="mui-input-row">
+						<label>群号码</label>
+						<label id="gnumber"></label>
+					</div>
+				</div>
+			</div>
+			<h4 style="text-align: center; margin-top: 30px;">请扫描下面的二维码加入群<h4>
+			<div id="qrcode">
+			</div>
+		</div>
+		<script>
+			var gnumber = null,gname = null;
+			
+			mui.plusReady(function(){
+				updateSerivces();
+			});
+			
+			/**
+			 * 更新分享服务
+			 */
+			function updateSerivces(){
+				plus.share.getServices( function(s){
+					shares={};
+					for(var i in s){
+						var t=s[i];
+						shares[t.id]=t;
+					}
+				}, function(e){
+					console.log( "获取分享服务列表失败："+e.message );
+				} );
+			}
+			// 分析链接
+			function shareHref(){
+				var ids=[{id:"weixin",ex:"WXSceneSession"},{id:"weixin",ex:"WXSceneTimeline"}],
+				bts=[{title:"发送给微信好友"},{title:"分享到微信朋友圈"}];
+				plus.nativeUI.actionSheet({cancel:"取消",buttons:bts},
+					function(e){
+						var i=e.index;
+						if(i>0){
+							shareAction(ids[i-1].id,ids[i-1].ex);
+						}
+					}
+				);
+			}
+			/**
+			   * 分享操作
+			   * @param {String} id
+			   */
+			function shareAction(id,ex) {
+				var s=null;
+				if(!id||!(s=shares[id])){
+					console.log( "无效的分享服务！" );
+					return;
+				}
+				if ( s.authenticated ) {
+					shareMessage(s,ex);
+				} else {
+					console.log( "---未授权---" );
+					s.authorize( function(){
+							shareMessage(s,ex);
+						},function(e){
+					});
+				}
+			}
+			/**
+			   * 发送分享消息
+			   * @param {plus.share.ShareService} s
+			   */
+			function shareMessage(s,ex){				
+				var msg={extra:{scene:ex}};
+				msg.href=downloadurl;
+				msg.title="邀请你加入群'"+gname+"',群号码："+gnumber;
+				msg.content="让我们一起加入群'"+gname+"'吧，让彼此更方便联系，群号码："+gnumber;
+				msg.thumbs=["_www/logo.png"];
+				msg.pictures=["_www/logo.png"];
+				s.send( msg, function(){
+					shareresult = true;
+				}, function(e){
+					shareresult = false;
+				} );
+			}
+		
+			window.addEventListener("setGroupInfo", function(event){
+				gnumber = event.detail.gnumber;
+				gname = event.detail.gname;
+				mui("#gname")[0].innerHTML = gname;
+				mui("#gnumber")[0].innerHTML = gnumber;
+				
+				var qrcode_c = document.getElementById("qrcode");  
+				if(qrcode_c){  
+				    var txt = 'addgroup|'+gnumber;    
+				    var qrcode = new QRCode(qrcode_c, {  
+				        width : 300,  
+				        height : 300  
+				    });
+				    qrcode.makeCode(txt);  
+				}  
+				
+			})
+			
+			mui.back = function(){
+				document.getElementById("qrcode").innerHTML = "";
+			    plus.webview.currentWebview().hide();
+			};
+		</script>
+	</body>
+</html>

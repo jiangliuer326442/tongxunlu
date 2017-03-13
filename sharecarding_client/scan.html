@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8">
+	<title>Barcode Example</title>
+	<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/common.js"></script>
+	<script type="text/javascript" >
+// 扩展API加载完毕后调用onPlusReady回调函数 
+document.addEventListener( "plusready", onPlusReady, false );
+// 扩展API加载完毕，现在可以正常调用扩展API
+function onPlusReady() {
+	startRecognize();
+	startScan();
+}
+var scan = null;
+function onmarked( type, result ) {
+	var arr = result.split('|');
+	arr[0] = arr[0].replace(/\s+/g,"");
+	switch (arr[0]){
+		case "addgroup":
+			var number = arr[1];
+				if(!number){
+					mui.alert("请输入群号码");
+					document.querySelector("#number").value = "";
+					return;
+				}
+				getToken(function(token){
+					mui.ajax(server+'/addgroup',{
+						data:{
+							number: number,
+							token: token
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:5000,//超时时间设置为10秒；
+						success:function(data){
+							if(data.status == 200){
+								mui.toast(data.info);
+						    }else{
+						    	mui.alert(data.info);
+						    }
+							cancelScan();
+							var GroupsWebview = plus.webview.getWebviewById("framegroups.html");
+						    //触发详情页面的newsId事件
+							  mui.fire(GroupsWebview,'refresh');
+							mui.openWindow({id:"framegroups.html"});
+							plus.webview.close(plus.webview.currentWebview());
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							console.log(JSON.stringify(xhr));
+						}
+					});
+				});
+			break;
+		case "addmember":
+		console.log(123);
+			var arr2 = arr[1].split(':');
+			var username = arr2[0];
+			var mobile = arr2[1];
+			console.log(mobile);
+			getToken(function(token){
+				mui.ajax(server+'/collectphone',{
+					data:{
+						contacts: username+":"+mobile+"|",
+						token: token
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+						if(data.status == 200){
+							mui.toast(data.info);
+							plus.contacts.getAddressBook( plus.contacts.ADDRESSBOOK_PHONE, function( addressbook ) {
+								//向通讯录中添加联系人
+								var contact = addressbook.create();
+								contact.name = {givenName:username};
+								contact.phoneNumbers = [{type:"手机",value:mobile,preferred:true}];
+								contact.save();
+							}, function ( e ) {
+								alert( "Get address book failed: " + e.message );
+							} );
+							cancelScan();
+							var ContactorsWebview = plus.webview.getWebviewById("framecontactors.html");
+						    //触发详情页面的newsId事件
+							mui.fire(ContactorsWebview,'refresh');
+							mui.openWindow({id:"framecontactors.html"});
+							plus.webview.close(plus.webview.currentWebview());
+						}else{
+						    mui.alert(data.info);
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log(JSON.stringify(xhr));
+					}
+				});
+			});
+			break;
+		default:
+			break;
+	}
+}
+function startRecognize() {
+	scan = new plus.barcode.Barcode('bcid');
+	scan.onmarked = onmarked; 
+}
+function startScan() {
+	scan.start();
+}
+function cancelScan() {
+	scan.cancel();
+}
+function setFlash() {
+	scan.setFlash();
+}
+	</script>
+	<style type="text/css">
+*{
+	-webkit-user-select: none;
+}
+html,body{
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+}
+#bcid {
+	background:#fff;
+	height:480px;
+	width:360px;
+}
+	</style>
+	</head>
+	<body >
+		<div id= "bcid"></div>
+	</body>
+</html>

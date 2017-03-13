@@ -1,0 +1,135 @@
+[0mGET / [36m304 [0m15.986 ms - -[0m
+OK
+[0mGET /stylesheets/style.css [36m304 [0m2.947 ms - -[0m
+[0mGET /favicon.ico [32m200 [0m3.263 ms - 67646[0m
+[0mGET / [36m304 [0m3.064 ms - -[0m
+OK
+[0mGET /stylesheets/style.css [36m304 [0m0.390 ms - -[0m
+[0mGET /favicon.ico [32m200 [0m1.131 ms - 67646[0m
+[0mGET / [36m304 [0m1.053 ms - -[0m
+OK
+[0mGET /stylesheets/style.css [36m304 [0m0.248 ms - -[0m
+[0mGET /favicon.ico [32m200 [0m0.557 ms - 67646[0m
+[0mGET / [36m304 [0m1.275 ms - -[0m
+OK
+[0mGET /stylesheets/style.css [36m304 [0m0.442 ms - -[0m
+[0mGET /favicon.ico [32m200 [0m1.300 ms - 67646[0m
+[0mGET / [36m304 [0m2.395 ms - -[0m
+OK
+[0mGET /stylesheets/style.css [36m304 [0m0.281 ms - -[0m
+[0mGET /favicon.ico [32m200 [0m0.783 ms - 67646[0m
+[0mGET / [36m304 [0m1.042 ms - -[0m
+OK
+[0mGET /stylesheets/style.css [36m304 [0m0.365 ms - -[0m
+[0mGET /favicon.ico [32m200 [0m0.531 ms - 67646[0m
+[0mGET / [36m304 [0m1.578 ms - -[0m
+OK
+[0mGET /stylesheets/style.css [36m304 [0m0.949 ms - -[0m
+[0mGET /favicon.ico [32m200 [0m0.651 ms - 67646[0m
+[0mGET / [32m200 [0m1.561 ms - 207[0m
+OK
+[0mGET /stylesheets/style.css [32m200 [0m0.661 ms - 111[0m
+[0mGET /favicon.ico [32m200 [0m1.162 ms - 67646[0m
+[0mGET /update.json [36m304 [0m2.445 ms - -[0m
+[0mPOST /collectphone [32m200 [0m176.577 ms - 46[0m
+[0mPOST /setgetui [32m200 [0m11.222 ms - 41[0m
+[0mPOST /getuserinfo [32m200 [0m7.169 ms - 540[0m
+[0mGET /upload/da0d0555d095d00702eb6544a9893bdb.jpg [36m304 [0m2.646 ms - -[0m
+[0mGET /upload/da0d0555d095d00702eb6544a9893bdb.jpg [36m304 [0m0.506 ms - -[0m
+[0mGET /upload/head.jpg [36m304 [0m0.469 ms - -[0m
+[0mGET /upload/be7935200919ac8ac87b0604ca02ce9e.jpg [36m304 [0m0.298 ms - -[0m
+[0mGET /upload/da0d0555d095d00702eb6544a9893bdb.jpg [36m304 [0m1.066 ms - -[0m
+[0mGET /upload/head.jpg [36m304 [0m0.690 ms - -[0m
+[0mGET /upload/be7935200919ac8ac87b0604ca02ce9e.jpg [36m304 [0m0.416 ms - -[0m
+[0mPOST /getmycard [32m200 [0m6.290 ms - 449[0m
+[0mGET /upload/da0d0555d095d00702eb6544a9893bdb.jpg [36m304 [0m0.566 ms - -[0m
+[0mPOST /getmycard [32m200 [0m5.195 ms - 449[0m
+[0mPOST /getmycard [32m200 [0m5.684 ms - 449[0m
+[0mGET /upload/da0d0555d095d00702eb6544a9893bdb.jpg [36m304 [0m0.530 ms - -[0m
+[0mPOST /getmycard [32m200 [0m5.441 ms - 449[0m
+[0mGET /upload/da0d0555d095d00702eb6544a9893bdb.jpg [36m304 [0m0.816 ms - -[0m
+[0mGET /update.json [36m304 [0m0.608 ms - -[0m
+[0mPOST /setgetui [32m200 [0m3.972 ms - 41[0m
+[0mPOST /getuserinfo [32m200 [0m4.441 ms - 540[0m
+[0mGET /upload/da0d0555d095d00702eb6544a9893bdb.jpg [36m304 [0m0.441 ms - -[0m
+[0mGET /upload/da0d0555d095d00702eb6544a9893bdb.jpg [36m304 [0m0.356 ms - -[0m
+[0mGET /upload/head.jpg [36m304 [0m0.606 ms - -[0m
+[0mGET /upload/be7935200919ac8ac87b0604ca02ce9e.jpg [36m304 [0m0.432 ms - -[0m
+[0mGET /upload/da0d0555d095d00702eb6544a9893bdb.jpg [36m304 [0m0.481 ms - -[0m
+[0mGET /upload/head.jpg [36m304 [0m0.281 ms - -[0m
+[0mGET /upload/be7935200919ac8ac87b0604ca02ce9e.jpg [36m304 [0m0.434 ms - -[0m
+[0mPOST /listmembers [32m200 [0m13.688 ms - 316[0m
+[0mGET /upload/da0d0555d095d00702eb6544a9893bdb.jpg [36m304 [0m0.391 ms - -[0m
+[0mGET /upload/head.jpg [36m304 [0m0.400 ms - -[0m
+[0mGET /upload/be7935200919ac8ac87b0604ca02ce9e.jpg [36m304 [0m0.609 ms - -[0m
+吴林辉:18906032142|袁修斌:18796019653|苏凯:18013445499|邱金冰:15050868990|方乙同:15951820868|张沈波:18121020447|冒小慧:18662259242|孙钰小姨:18918166604|方乙同:18501704596|顾升级:18662051239|张美:13815155893|陈良周师傅:15161920057|胡怀播:13337778966|曾凡军:13817733804|袁修斌:18305160191|陶兰:15950271975|春梅:13564781623|戴星星:15105110755|艾杰飞人力资源:15000587187|金贝壳 曾哥:13817528790|文波:18501791578|周小洁:18352070979|鑫金所 孙渡:18629577321|缘来鲜李浩然:13162105045|上海长城宽带:18621029075|项仁洋:13952949248|庄莎莎:18061821107|张海丽:15262903565|张俊:15502172960|方国财:15961927648|盐城 公司注册:15366554444|张创:18602896391|周婷婷:13524583402|方国发:18761287118|小猫:18652865593|张明珠:17802672606|春梅:15895105220|周慧钢:18516573852|房东张俊:13564885202|王学峰:15139499798|通讯录 季冰蓉:13905295502|大舅妈:13166107451|闫海军:13914627852|沈海燕:18068693707|张琼芳:15262909134|通讯录 ios 冯保惠:18911032884|李兰:13694287981|文波:15687177279|张俊:13167102701|上海百度推广:15001757479|李加锋:13564899088|朱浩:18951407642|维修网络:18912561848|王韬:18629867888|周婷婷:15669992791|小苏:15262901257|孙钰爸爸:13270034469|周学良:18662090982|牟大维:15618475050|孙爱珍:18905280804|肖力:13611684560|幸运投资徐:13501693129|小吕:18052824156|刘映雪:18951408284|方君君:18352071278|小马:18013441499|青青:18352035687|学峰:18652820386|缘来鲜李辉:18701734177|四姨:15189257110|周慧钢:18516563852|方海龙:15195830609|信融天下余杨奎:13414902401|薛杏梗:18260623135|上海财务代理:13122409600|张思帆:18951402979|徐景 高顿:17717626213|张俊老婆:18916952932|吴亮:15651985676|尤成成:15605290907|万强:14705150715|信融天下澤哥:18688374818|王磊:13921399634|闫鑫:15365862778|绍东权:15951933892|张书成:18522022921|通讯录 安卓 杨加乐:18551091994|张华:18652812665|方芳:18262285360|郭庆庆:13815152687|梁丽娟:13851333497|王云:15722796636|老黄:18616119816|苗尊领:15052041316|王芳:18061180293|绍东权:15365693126|金贝壳:15121085325|方海亮:18662026482:/upload/da0d0555d095d00702eb6544a9893bdb.jpg:上海市闵行区秀文路128:上海市:闵行区:艾杰飞人力资源:PHP工程师|孙钰:15216669259:/upload/be7935200919ac8ac87b0604ca02ce9e.jpg:江苏省盐城市阜宁县上海路:盐城市:阜宁县:华燕消防:财务会计|梁宝兰:18252244257:/upload/head.jpg:江苏省盐城市阜宁县上海路:盐城市:阜宁县|
+[0mPOST /getcontactors [32m200 [0m109.026 ms - 2657[0m
+[0mGET /upload/da0d0555d095d00702eb6544a9893bdb.jpg [36m304 [0m1.375 ms - -[0m
+[0mGET /upload/head.jpg [36m304 [0m1.057 ms - -[0m
+[0mGET /upload/be7935200919ac8ac87b0604ca02ce9e.jpg [36m304 [0m0.730 ms - -[0m
+[0mPOST /listmembers [32m200 [0m11.943 ms - 322[0m
+[0mGET /update.json [32m200 [0m1.381 ms - 204[0m
+[0mPOST /collectphone [32m200 [0m122.711 ms - 46[0m
+[0mGET /H582D5CD5_0210170540.apk [32m200 [0m1.866 ms - 6522131[0m
+[0mGET /update.json [36m304 [0m0.536 ms - -[0m
+[0mPOST /collectphone [32m200 [0m96.174 ms - 46[0m
+[0mGET /update.json [36m304 [0m1.307 ms - -[0m
+[0mPOST /setgetui [32m200 [0m10.172 ms - 41[0m
+[0mPOST /getuserinfo [32m200 [0m4.895 ms - 551[0m
+[0mGET /upload/da0d0555d095d00702eb6544a9893bdb.jpg [36m304 [0m1.016 ms - -[0m
+[0mGET /upload/da0d0555d095d00702eb6544a9893bdb.jpg [36m304 [0m0.338 ms - -[0m
+[0mGET /upload/head.jpg [36m304 [0m0.480 ms - -[0m
+[0mGET /upload/be7935200919ac8ac87b0604ca02ce9e.jpg [36m304 [0m0.433 ms - -[0m
+[0mGET /upload/head.jpg [36m304 [0m1.668 ms - -[0m
+[0mGET /upload/da0d0555d095d00702eb6544a9893bdb.jpg [36m304 [0m0.472 ms - -[0m
+[0mGET /upload/be7935200919ac8ac87b0604ca02ce9e.jpg [36m304 [0m0.279 ms - -[0m
+[0mGET / [36m304 [0m2.713 ms - -[0m
+OK
+[0mGET /stylesheets/style.css [36m304 [0m0.460 ms - -[0m
+[0mGET / [32m200 [0m1.660 ms - 207[0m
+OK
+[0mGET /update.json [36m304 [0m0.603 ms - -[0m
+[0mGET /upload/da0d0555d095d00702eb6544a9893bdb.jpg [36m304 [0m0.532 ms - -[0m
+[0mGET /upload/be7935200919ac8ac87b0604ca02ce9e.jpg [36m304 [0m0.843 ms - -[0m
+[0mGET /upload/head.jpg [36m304 [0m0.975 ms - -[0m
+[0mGET /upload/da0d0555d095d00702eb6544a9893bdb.jpg [36m304 [0m1.081 ms - -[0m
+[0mGET /upload/head.jpg [36m304 [0m0.281 ms - -[0m
+[0mGET /upload/be7935200919ac8ac87b0604ca02ce9e.jpg [36m304 [0m0.284 ms - -[0m
+[0mGET /update.json [36m304 [0m0.502 ms - -[0m
+[0mPOST /setgetui [32m200 [0m4.019 ms - 41[0m
+[0mPOST /getuserinfo [32m200 [0m4.770 ms - 551[0m
+[0mGET /upload/da0d0555d095d00702eb6544a9893bdb.jpg [36m304 [0m0.505 ms - -[0m
+[0mGET /upload/da0d0555d095d00702eb6544a9893bdb.jpg [36m304 [0m1.087 ms - -[0m
+[0mGET /upload/head.jpg [36m304 [0m1.105 ms - -[0m
+[0mGET /upload/be7935200919ac8ac87b0604ca02ce9e.jpg [36m304 [0m1.111 ms - -[0m
+[0mGET /upload/da0d0555d095d00702eb6544a9893bdb.jpg [36m304 [0m0.277 ms - -[0m
+[0mGET /upload/head.jpg [36m304 [0m0.271 ms - -[0m
+[0mGET /upload/be7935200919ac8ac87b0604ca02ce9e.jpg [36m304 [0m0.279 ms - -[0m
+[0mPOST /sendchgphonecode [32m200 [0m8.768 ms - 46[0m
+[0mPOST /sendchgphonecode [32m200 [0m5.264 ms - 46[0m
+[0mGET / [32m200 [0m1.531 ms - 207[0m
+OK
+[0mGET /update.json [36m304 [0m0.501 ms - -[0m
+[0mPOST /collectphone [32m200 [0m140.204 ms - 46[0m
+[0mGET /update.json [36m304 [0m3.489 ms - -[0m
+[0mPOST /collectphone [32m200 [0m100.255 ms - 46[0m
+[0mPOST /login [32m200 [0m6.085 ms - 88[0m
+[0mPOST /setgetui [32m200 [0m4.298 ms - 41[0m
+[0mPOST /listgroup [32m200 [0m5.560 ms - 195[0m
+[0mPOST /getuserinfo [32m200 [0m4.228 ms - 549[0m
+[0mGET /upload/da0d0555d095d00702eb6544a9893bdb.jpg [36m304 [0m2.121 ms - -[0m
+[0mGET /upload/head.jpg [36m304 [0m1.170 ms - -[0m
+[0mGET /upload/da0d0555d095d00702eb6544a9893bdb.jpg [36m304 [0m1.136 ms - -[0m
+[0mGET /upload/be7935200919ac8ac87b0604ca02ce9e.jpg [36m304 [0m0.324 ms - -[0m
+[0mGET /upload/da0d0555d095d00702eb6544a9893bdb.jpg [36m304 [0m0.382 ms - -[0m
+[0mGET /upload/be7935200919ac8ac87b0604ca02ce9e.jpg [36m304 [0m0.276 ms - -[0m
+[0mGET /upload/head.jpg [36m304 [0m0.329 ms - -[0m
+[0mPOST /getmycard [32m200 [0m6.623 ms - 449[0m
+[0mGET /upload/da0d0555d095d00702eb6544a9893bdb.jpg [36m304 [0m0.543 ms - -[0m
+[0mPOST /getmycard [32m200 [0m4.746 ms - 449[0m
+[0mGET / [32m200 [0m2.591 ms - 207[0m
+OK
+[0mGET / [36m304 [0m1.239 ms - -[0m
+OK
+[0mGET /stylesheets/style.css [36m304 [0m0.478 ms - -[0m
+[0mGET /update.json [32m200 [0m1.721 ms - 204[0m

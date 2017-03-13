@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>乐享名片</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/iconfont.css">
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			.mui-table-view {
+				margin-top: 20px;
+			}
+			.head-img {
+				width: 40px;
+				height: 40px;
+			}
+			.update {
+				font-style: normal;
+				color: #999999;
+				margin-right: -25px;
+				font-size: 15px
+			}
+			#erweima {
+				display: none;
+				position: absolute;
+				width: 300em;
+				height: 300px;
+				margin-top: -200px;
+				left: 50%;
+				top: 50%;
+				margin-left: -150px;
+			}
+			.new{
+				background: url(images/new.png);
+				display: inline-block;
+				width: 38px;
+				height: 18px;
+				margin-left: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+	<!--页面标题栏开始-->
+	<div class="mui-navbar-inner mui-bar mui-bar-nav">
+		<h1 class="mui-center mui-title">设置</h1>
+	</div>
+	<!--页面标题栏结束-->
+	<!--页面主内容区开始-->
+	<div class="mui-content">
+		<ul class="mui-table-view mui-table-view-chevron">
+			<li class="mui-table-view-cell mui-media">
+				<a class="mui-navigate-right" id="account">
+					<img class="mui-media-object mui-pull-left head-img" id="head-img" src="logo.png">
+					<div class="mui-media-body" style="float: left;">
+						<span id="realname"></span>
+						<p class='mui-ellipsis'>手机号:<span id="phone"></span></p>
+					</div>
+				</a>
+			</li>
+		</ul>
+		<ul class="mui-table-view mui-table-view-chevron">
+			<li class="mui-table-view-cell" id="chgpwd">
+				<a class="mui-navigate-right">修改密码</a>
+			</li>
+			<li class="mui-table-view-cell" id="chgphone">
+				<a class="mui-navigate-right">更换手机号</a>
+			</li>
+		</ul>
+		<ul class="mui-table-view mui-table-view-chevron">
+			<li class="mui-table-view-cell" id="mycard">
+				<a class="mui-navigate-right">我的名片<i class="new"></i></a>
+			</li>
+			<li class="mui-table-view-cell" id="showerweima">
+				<a href="#notifications" class="mui-navigate-right">扫二维码加我号码</a>
+			</li>
+		</ul>
+		<ul class="mui-table-view mui-table-view-chevron">
+			<li class="mui-table-view-cell" id="teachers">
+				<a class="mui-navigate-right">关于乐享名片</a>
+			</li>
+			<li class="mui-table-view-cell" id="updates">
+				<a class="mui-navigate-right">检查更新</a>
+			</li>
+		</ul>
+		<ul class="mui-table-view">
+			<li class="mui-table-view-cell" style="text-align: center;">
+				<a id="logout">退出登录</a>
+			</li>
+		</ul>
+	</div>
+	<div id="erweima"></div>
+
+	<script src="js/common.js"></script>
+	<script src="js/mui.min.js "></script>
+	<script src="js/qrcode.js"></script>
+	<script src="js/sqlite.js"></script>
+	<script type="text/javascript">
+		var db = new DB('sharecarding',1024*1024*2);
+		mui.plusReady(function(){
+			getToken(function(token){
+				mui.ajax(server+'/getuserinfo',{
+					data:{
+						token: token
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:5000,//超时时间设置为10秒；
+					success:function(data){
+						if(data.status == 200){
+							var realname = data.data.realname;
+							var phone = data.data.phone;
+							mui("#realname")[0].innerHTML = realname;
+							mui("#phone")[0].innerHTML = phone;
+							mui('#chgpwd')[0].addEventListener('tap', function(){
+								var chgpwdPage = plus.webview.create("chgpwd.html");
+								  //触发详情页面的newsId事件
+								  mui.fire(chgpwdPage,'setphone',{
+								    phone:phone
+								  });
+								chgpwdPage.show();
+							});
+							var qrcode_c = document.getElementById("erweima");  
+							if(qrcode_c){
+							    var txt = 'addmember|'+realname+':'+phone;    
+							    var qrcode = new QRCode(qrcode_c, {  
+							        width : 300,  
+							        height : 300  
+							    });
+							    qrcode.makeCode(txt);  
+							}  
+							
+							mui("#showerweima")[0].addEventListener('tap',function(){
+								showqrCode();
+							});
+							
+					    } 
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log(JSON.stringify(xhr));
+					}
+				});
+			});
+		});
+		mui('#chgphone')[0].addEventListener('tap', function(){
+		    mui.openWindow({
+		      url:'chgphone.html',
+		      id:'chgphone.html'
+		    });
+		});
+		mui('#mycard')[0].addEventListener('tap', function(){
+		    mui.openWindow({
+		      url:'card.html',
+		      id:'card.html'
+		    });
+		});
+		mui("#teachers")[0].addEventListener('tap', function(){
+		    mui.openWindow({
+		      url:'teachers.html',
+		      id:'teachers.html'
+		    });
+		
+		});
+		mui("#updates")[0].addEventListener('tap', function(){
+			var wgtVer=null;
+			plus.runtime.getProperty(plus.runtime.appid,function(inf){
+		        wgtVer=inf.version;
+		        var checkUrl= server + "/update.json";
+			    var xhr=new XMLHttpRequest();
+			    xhr.onreadystatechange=function(){
+			        switch(xhr.readyState){
+			            case 4:
+			            if(xhr.status==200){
+			            	var res_string = xhr.responseText;
+			            	var res_obj = JSON.parse(res_string);
+			                var newVer= res_obj.version;
+			                if(wgtVer&&newVer&&(wgtVer!=newVer)){
+		                    	if(Date.now().toString()-plus.storage.getItem("lastrefuse")>86400*1000){
+									var btnArray = ['立即升级', '暂不升级'];
+									mui.confirm("发现新版本"+newVer+"，是否升级？", '升级提醒', btnArray, function(e) {
+										if (e.index == 0) {
+											plus.runtime.openURL(res_obj.url)
+										} else {
+											plus.storage.setItem("lastrefuse",Date.now().toString());
+											return;
+										}
+									})
+								}
+			                }else{
+								mui.toast("已经是最新版本");
+			                }
+			            }else{
+			            }
+			            break;
+			            default:
+			            break;
+			        }
+			    }
+			    xhr.open('GET',checkUrl);
+			    xhr.send();
+		    });
+		});
+		mui("#logout")[0].addEventListener("tap", function(){
+			var btnArray = ['确定', '取消'];
+			mui.confirm("您确定要退出当前账号么？", '退出登录', btnArray, function(e) {
+				if (e.index == 0) {
+					setToken("-1");
+					plus.storage.clear();
+					plus.runtime.quit();
+				}
+			})
+		});
+		var showqrCode = function(){
+			mui(".mui-content")[0].style.display = 'none';
+			mui('#erweima')[0].style.display = 'block';
+		}
+		mui('#erweima')[0].addEventListener('tap', function(){
+			mui(".mui-content")[0].style.display = 'block';
+			mui('#erweima')[0].style.display = 'none';
+		});
+	</script>
+</html>

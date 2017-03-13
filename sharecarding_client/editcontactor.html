@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+			.mui-input-group {
+				margin-top: 10px;
+			}
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			.mui-input-group label {
+				width: 30%;
+			}
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			.mui-btn {
+				padding: 10px;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" id="back"></a>
+			<h1 class="mui-title">编辑联系人</h1>
+		</header>
+		<div class="mui-content">
+			<form id='login-form' class="mui-input-group">
+				<div class="mui-input-row">
+					<label>手机号</label>
+					<input id='phone' type="number" class="mui-input-clear mui-input" placeholder="联系人手机号">
+				</div>
+				<div class="mui-input-row">
+					<label>姓名</label>
+					<input id='username' type="text" class="mui-input-clear mui-input" placeholder="联系人姓名">
+				</div>
+			</form>
+			<div class="mui-content-padded">
+				<button id='adds' class="mui-btn mui-btn-block mui-btn-primary">修改</button>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/common.js"></script>
+		<script type="text/javascript">
+			var oldPhone = null;
+			//添加newId自定义事件监听
+			window.addEventListener('setcontactor',function(event){
+				oldPhone = event.detail.phone;
+				mui("#phone")[0].value = event.detail.phone;
+				mui("#username")[0].value = event.detail.name;
+			});
+		
+		
+			document.querySelector("#adds").addEventListener("tap",function(){
+				var mobile = get_mobile(document.querySelector("#phone").value);
+				if(!mobile){
+					mui.alert("请输入手机号");
+					document.querySelector("#phone").value = "";
+					return;
+				}
+				var username = document.getElementById("username").value;
+				if(!username){
+					mui.alert("请输入姓名");
+					document.getElementById("username").value = "";
+					return;
+				}
+				plus.nativeUI.showWaiting( "正在上传..." );
+				getToken(function(token){
+					mui.ajax(server+'/editcontactor',{
+						data:{
+							oldphone: oldPhone,
+							contacts: username+":"+mobile+"|",
+							token: token
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						success:function(data){
+							plus.contacts.getAddressBook( plus.contacts.ADDRESSBOOK_PHONE, 
+								function( addressbook ) {
+									// 可通过addressbook进行通讯录操作
+									addressbook.find( null, 
+										function ( contacts ) {
+											if ( contacts.length> 0 ) {
+												var dc = contacts[0];
+												dc.remove();
+											}
+										}, 
+										function ( e ) {
+										}, 
+										{filter:[{logic:"or",field:"phoneNumbers",value:oldPhone}],multi:false} 
+									);
+									//向通讯录中添加联系人
+									var contact = addressbook.create();
+									contact.name = {givenName:username};
+									contact.phoneNumbers = [{type:"手机",value:mobile,preferred:true}];
+									contact.save();
+								} 
+							);
+							plus.nativeUI.closeWaiting();
+							var ContactorsWebview = plus.webview.getWebviewById("framecontactors.html");
+						    //触发详情页面的newsId事件
+							  mui.fire(ContactorsWebview,'refresh');
+						    plus.webview.currentWebview().hide();
+							document.querySelector("#phone").value = "";
+							document.getElementById("username").value = "";
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							console.log(JSON.stringify(xhr));
+						}
+					});
+				});
+			});
+			mui.back = function(){
+				document.querySelector("#phone").value = "";
+				document.getElementById("username").value = "";
+			    plus.webview.currentWebview().hide();
+			};
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,22 @@
+/root/config/routes.js:31
+    "": "index/index"
+    ^^
+
+SyntaxError: Unexpected string
+    at exports.runInThisContext (vm.js:53:16)
+    at Module._compile (module.js:387:25)
+    at Object.Module._extensions..js (module.js:422:10)
+    at Module.load (module.js:357:32)
+    at Function.Module._load (module.js:314:12)
+    at Module.require (module.js:367:17)
+    at require (internal/module.js:16:19)
+    at Object.<anonymous> (/root/app.js:14:18)
+    at Module._compile (module.js:413:34)
+    at Object.Module._extensions..js (module.js:422:10)
+    at Module.load (module.js:357:32)
+    at Function.Module._load (module.js:314:12)
+    at Module.require (module.js:367:17)
+    at require (internal/module.js:16:19)
+    at Object.<anonymous> (/root/bin/www:7:11)
+    at Module._compile (module.js:413:34)
+error: Forever detected script exited with code: 1

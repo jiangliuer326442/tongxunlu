@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>乐享名片</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/md5.js" type="text/javascript" charset="utf-8"></script>
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			.mui-btn {
+				padding: 10px;
+			}
+			#phone {
+				width: 55%;
+				margin: -10px -25px;
+			}
+			.mui-icon-clear{ right: 26% !important;}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">更换手机号</h1>
+		</header>
+		<div class="mui-content">
+				<form class="mui-input-group">
+					<div class="mui-input-row">
+						<label>新号码</label>
+						<input id='account' type="number" class="mui-input-clear mui-input" placeholder="请输入账号">
+					</div>
+					<div class="mui-input-row">
+						<label>验证码</label>
+						<input type="number" class="mui-input-clear" style="float: left; width: 35%;" id="codes" placeholder="输入验证码">
+						<button type="button" class="mui-btn mui-btn-primary" style="width: 24%; margin-right: 2%; border-radius: 15px;" id="send">发送</button>
+					</div>
+				</form>
+				<div class="mui-content-padded">
+					<button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="chgphone">修改</button>
+				</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script>
+			var timeWait = 120;//等待5秒
+			(function($, doc) {
+				$.plusReady(function(){
+					var cphoneButton = doc.getElementById('chgphone');
+					var sendButton = doc.getElementById('send');
+					var accountBox = doc.getElementById('account');
+					
+					var sendMessage = function(){
+						var phone = get_mobile(accountBox.value);
+						if(phone == ''){
+							plus.nativeUI.toast('手机号格式不正确');
+							return;
+						}
+						$.ajax(server+'/sendchgphonecode',{
+							data:{
+								phone: phone,
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								sendButton.removeEventListener('tap');
+								lefttime = timeWait;
+								doc.querySelector("#send").style.backgroundColor = "#efeff4";
+								doc.querySelector("#send").style.color = "#333333";
+								timer=setInterval(clock,1000);
+								wait();
+								if(data.status==200){
+									$.toast("发成送功");
+								}else{
+									$.alert(data.info);
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(errorThrown);
+							}
+						});
+					}
+					sendButton.addEventListener("tap",sendMessage);
+					var lefttime = timeWait;
+					var clock = function(){
+					  doc.querySelector("#send").innerHTML=lefttime+"秒";
+					  lefttime--;
+					  if(lefttime==0){
+					  	window.clearInterval(timer);
+					  }
+					}
+					var timer=null;//倒数计时器
+					var wait = function(){
+						setTimeout(function(){
+							doc.querySelector("#send").style.backgroundColor = "#007aff";
+							doc.querySelector("#send").style.color = "#fff";
+							doc.querySelector("#send").innerHTML= "重新发送";
+							sendButton.addEventListener('tap', sendMessage);
+						},timeWait*1000+1000);
+					}
+					cphoneButton.addEventListener("tap",function(event){
+						var codes = doc.querySelector("#codes").value;
+						if(!codes){
+							plus.nativeUI.toast("请填写验证码");
+							return;
+						}
+						var phone = get_mobile(accountBox.value);
+						if(phone == ''){
+							plus.nativeUI.toast('手机号格式不正确');
+							return;
+						}
+						getToken(function(token){
+							$.ajax(server+'/chgphones',{
+								data:{
+									phone: phone,
+									codes: codes,
+									token: token
+								},
+								dataType:'json',//服务器返回json格式数据
+								type:'post',//HTTP请求类型
+								timeout:10000,//超时时间设置为10秒；
+								success:function(data){
+									if(data.status==200){
+										$.toast("更换号码成功，请重新登录");
+						    			contactsPage = plus.webview.getWebviewById('framecontactors.html');
+						    			//触发详情页面的newsId事件
+						    			mui.fire(contactsPage,'refresh');
+										setToken("-1");
+										plus.storage.clear();
+										setTimeout("plus.runtime.quit()",3000);
+									}else{
+										$.alert(data.info);
+									}
+								},
+								error:function(xhr,type,errorThrown){
+									//异常处理；
+									console.log(errorThrown);
+								}
+							});
+						});
+					});
+				});
+			}(mui, document));
+		</script>
+	</body>
+</html>

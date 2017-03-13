@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>乐享名片</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/md5.js" type="text/javascript" charset="utf-8"></script>
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			.card_box{width: 100%; height: 181px; background-color: #FFFFFF; border-top: 2px solid #f6f6f6; position: relative; border-bottom: 1px solid #f6f6f6;}
+			.card_box .title{ margin-top: 12px; margin-left: 19px; height: 2.5em;}
+			.card_box .left{ width: 175px; float: left;}
+			.card_box .right{ float: right; padding-right: 15px;}
+			#company{ color: #3e3e3e; font-size: 1em; font-family: "微软雅黑"; margin-left: 8px;}
+			#e_company{ color: #919191; font-size: 0.4em; font-family: "微软雅黑";}
+			.card_box .bottom{ position: absolute; width: 100%; height: 65px; bottom: 0px;}
+			.card_box h5{ background-color: #004dfd; color: #bdd2e6; padding-left: 42px; line-height: 16px; font-size: 11px;}
+			.card_box .mtxt{ text-align: center;}
+			.card_box .body{ margin-top: 9px;}
+			#name{ font-size: 1.6em; font-family: "微软雅黑";}
+			#phone{ font-size: 0.9em;;}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">我的名片</h1>
+			<button id="edits" class="mui-btn mui-btn-primary mui-btn-link mui-pull-right">编辑</button>
+		</header>
+		<div class="mui-content">
+		    <div class="card_box">
+		    	<div class="title">
+		    		<div class="left">
+		    			<div id="company"></div>
+		    			<div id="e_company"></div>
+		    		</div>
+		    		<div class="right">
+		    			<img src="logo.png" id="head-img" style="height: 2.1em;" />
+		    		</div>
+		    	</div>
+		    	<dic class="mtxt">
+		    		<div class="body">
+		    			<span id="name">
+		    			</span>
+		    			<span id="position">
+		    			</span>
+		    		</div>
+		    		<div id="phone">
+		    		</div>
+		    	</dic>
+		    	<div class="bottom">
+		    		<h5>地址：<span id="caddress"></span></h5>
+		    		<h5>电话：<span id="ctel"></span>&nbsp;&nbsp;&nbsp;&nbsp;QQ:<span id="cqq"></span></h5>
+		    		<h5>网址：<span id="cweb"></span></h5>
+		    	</div>
+		    </div>
+		    <div class="card_box">
+		    	<div class="title">
+		    		<div class="right">
+		    			<img src="logo.png" style="height: 2.1em;" />
+		    		</div>
+		    	</div>
+		    	<dic class="mtxt">
+		    		<pre id="cbusiness">
+		    		</pre>
+		    	</dic>
+		    </div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/common.js"></script>
+		<script type="text/javascript">
+			(function(doc,$){
+				$.plusReady(function(){
+				  	getToken(function(token){
+						mui.ajax(server+'/getmycard',{
+							data:{
+								token: token
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								if(data.status==200){
+									var data = data.data;
+									//mui("#head-img")[0].src = server + data.photo;
+									doc.querySelector("#name").innerHTML = data.name;
+									doc.querySelector("#phone").innerHTML = data.phone;
+									doc.querySelector("#company").innerHTML = data.company == undefined ? "你就职的公司名称":data.company;
+									doc.querySelector("#e_company").innerHTML = data.e_company == undefined ? "YOUR COMPANY NAME CO.":data.e_company;
+									doc.querySelector("#position").innerHTML = data.position == undefined ? "您的职位":data.position;
+									doc.querySelector("#ctel").innerHTML = data.ctel == undefined ? "180 8888 8888":data.ctel;
+									doc.querySelector("#cqq").innerHTML = data.cqq == undefined ? "1200004000":data.cqq;
+									doc.querySelector("#caddress").innerHTML = data.caddress == undefined ? "某某区某某路某某大厦某某号":data.caddress;
+									doc.querySelector("#cweb").innerHTML = data.cweb == undefined ? "www.sharecarding.com":data.cweb;
+									doc.querySelector("#cbusiness").innerHTML = data.cbusiness == undefined ? "您或您公司经营的业务":data.cbusiness;
+								}else{
+									mui.alert(data.info);
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(errorThrown);
+							}
+						});
+					});
+				});
+				})(document, mui);
+		
+			mui("#edits")[0].addEventListener("tap",function(){
+			    mui.openWindow({
+			      url:'editcard.html',
+			      id:'editcard.html'
+			    });
+			});
+		</script>
+	</body>
+</html>

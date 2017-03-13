@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+		<style>
+			.mui-input-group {
+				margin-top: 10px;
+			}
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			.mui-input-group label {
+				width: 28%;
+			}
+			.mui-input-row label~input {
+				width: 72%;
+			}
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			.mui-btn {
+				padding: 10px;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">修改密码</h1>
+		</header>
+		<div class="mui-content">
+			<form id='chgpwd-form' class="mui-input-group">
+				<div class="mui-input-row">
+					<label>手机号</label>
+					<input id='account' type="number" class="mui-input-clear mui-input" readonly="readonly">
+				</div>
+				<div class="mui-input-row">
+					<label>原密码</label>
+					<input id='old_password' type="password" class="mui-input-clear mui-input" placeholder="请输入当前密码">
+				</div>
+				<div class="mui-input-row">
+					<label>新密码</label>
+					<input id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入新密码">
+				</div>
+				<div class="mui-input-row">
+					<label>确认</label>
+					<input id='password_confirm' type="password" class="mui-input-clear mui-input" placeholder="请确认密码">
+				</div>
+			</form>
+			<div class="mui-content-padded">
+				<button id='chgpwd' class="mui-btn mui-btn-block mui-btn-primary">修改密码</button>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.enterfocus.js"></script>
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/md5.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			(function($, doc) {
+				$.init({
+					statusBarBackground: '#f7f7f7'
+				});
+				$.plusReady(function() {
+					//检查 "登录状态/锁屏状态" 结束
+					var chgpwdButton = doc.getElementById('chgpwd');
+					var passwordBox = doc.getElementById('password');
+					var oldpasswordBox = doc.getElementById('old_password');
+					var passwordConfirmBox = doc.getElementById('password_confirm');
+					chgpwdButton.addEventListener('tap', function(event) {
+						var chgpwdInfo = {
+							oldpwd: oldpasswordBox.value,
+							password: passwordBox.value
+						};
+						if(!chgpwdInfo.oldpwd){
+							$.toast("请输入当前密码");
+							return;
+						}
+						var passwordConfirm = passwordConfirmBox.value;
+						if (passwordConfirm != chgpwdInfo.password) {
+							plus.nativeUI.toast('密码两次输入不一致');
+							return;
+						}
+						var password = chgpwdInfo.password;
+						if(password.length<4){
+							plus.nativeUI.toast("设定的密码太简单了");
+							return;
+						}
+						plus.nativeUI.showWaiting("正在修改密码");
+						password = hex_md5(chgpwdInfo.password);
+						oldpassword = hex_md5(chgpwdInfo.oldpwd);
+						getToken(function(token){
+							$.ajax(server+'/chgpwd',{
+								data:{
+									token: token,
+									oldpwd: oldpassword,
+									password: password
+								},
+								dataType:'json',//服务器返回json格式数据
+								type:'post',//HTTP请求类型
+								timeout:10000,//超时时间设置为10秒；
+								success:function(data){
+									plus.nativeUI.closeWaiting();
+									if(data.status==200){
+										$.toast(data.info);
+										setTimeout("mui.back()",1000);
+									}else{
+										$.alert(data.info);
+									}
+								},
+								error:function(xhr,type,errorThrown){
+								}
+							});
+						});
+					});
+					$.enterfocus('#login-form input', function() {
+						$.trigger(loginButton, 'tap');
+					});
+//					forgetButton.addEventListener('tap', function(event) {
+//						
+//					}, false);
+				});
+			}(mui, document));
+			
+			//添加newId自定义事件监听
+			window.addEventListener('setphone',function(event){
+				var phone = event.detail.phone;
+				mui("#account")[0].value = phone;
+			});
+		</script>
+	</body>
+
+</html>

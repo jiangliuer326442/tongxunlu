@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>乐享名片</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/mui.indexedlist.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/iconfont.css">
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/sortPhoneNumbers.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title" id="title">群成员</h1>
+		</header>
+		<div class="mui-content">
+			<div id='list' class="mui-indexed-list">
+				<div class="mui-indexed-list-bar" id="indexes"></div>
+				<div class="mui-indexed-list-alert"></div>
+				<div class="mui-indexed-list-inner">
+					<div class="mui-indexed-list-empty-alert">没有数据</div>
+					<ul class="mui-table-view" id="id_contacts">					
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		<div id="contactor_option" class="mui-popover mui-popover-action mui-popover-bottom">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a href="#" id="dial_btn">打电话</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a href="#" id="sms_btn">发短信</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a href="#contactor_option"><b>取消</b></a>
+				</li>
+			</ul>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.indexedlist.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			var contacts = null;
+			var current_phone = null;
+			var current_name = null;
+			var current_elem = null;
+			mui.ready(function(){
+				var header = document.querySelector('header.mui-bar');
+				var search = document.querySelector('.mui-indexed-list-search');
+				var list = document.getElementById('list');
+				//calc hieght
+				list.style.height = (document.documentElement.clientHeight - header.offsetHeight) + 'px';
+				//create
+				window.indexedList = new mui.IndexedList(list);
+			});
+			
+			mui("#dial_btn")[0].addEventListener("tap", function(){
+				dial();
+			});
+			mui("#sms_btn")[0].addEventListener("tap", function(){
+				sendsms();
+			});
+			
+			//添加newId自定义事件监听
+			window.addEventListener('refresh',function(event){
+				mui("#title")[0].innerHTML = event.detail.gname;
+			  	getToken(function(token){
+					mui.ajax(server+'/listmembers',{
+						data:{
+							token: token,
+							number: event.detail.gnumber
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						success:function(data){
+							if(data.status==200){
+								setContacts(data.data);
+							}else{
+								mui.alert(data.info);
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							console.log(errorThrown);
+						}
+					});
+				});
+			});
+			
+			function setContacts(contacts){
+				//通讯录
+				var contacts_arr = contacts.split("|");
+				var phoneArray = new Array();
+				for(var k=0;k<contacts_arr.length;k++){
+					phoneArray[k] = new Array();
+					var contactor = contacts_arr[k].split(':');
+					phoneArray[k][0] = contactor[0];
+					phoneArray[k][1] = contactor[1];
+					phoneArray[k][2] = contactor[2];
+					phoneArray[k][3] = contactor[3];
+				}
+				var phoneArray = phoneArray.sort(function(x, y){
+				    return x[0].localeCompare(y[0]);
+				});
+				var phoneObject = new Map();
+				for(var i=0; i<phoneArray.length; i++){
+					if(phoneArray[i][0]){
+						var fletter = makePy(phoneArray[i][0].substr(0,1));
+						if(fletter.length==1){
+							phoneObject.set(fletter,phoneArray[i]);
+						}
+					}
+				}
+				var contacts_str = '';
+				for(var i in phoneObject.keys){
+					var fletter = phoneObject.keys[i];
+					var contacts = phoneObject.get(fletter);
+					var newNode = document.createElement("a");
+					newNode.innerHTML = fletter;
+					mui("#indexes")[0].appendChild(newNode);
+					contacts_str += '<li data-group="'+fletter+'" class="mui-table-view-divider mui-indexed-list-group">'+fletter+'</li>';
+					for(var j in contacts){
+						var contactor = contacts[j];
+						contacts_str += '<li data-value="'+makePy(contactor[0])+'" data-name="'+contactor[0]+'" data-tags="'+contactor[1]+'" class="mui-table-view-cell mui-media">'+
+							'<img class="mui-media-object mui-pull-left" src="'+server+contactor[2]+'">'+
+							'<div class="mui-media-body">'+
+								contactor[0]+
+								'<p class="mui-ellipsis">'+contactor[3]+'</p>'+
+							'</div>'+
+					'</li>';
+					}
+				}
+				document.getElementById('id_contacts').innerHTML = contacts_str;
+				mui('.mui-table-view-cell').on('tap', 'div', function(){
+					current_elem = this.parentNode;
+					current_phone = this.parentNode.attributes["data-tags"].value;
+					current_name = this.parentNode.attributes["data-name"].value;
+					mui('#contactor_option').popover('toggle');
+				});
+			}
+			
+			//打电话
+			function dial(){
+				plus.device.dial( current_phone, false );
+			}
+			
+			//短信
+			function sendsms(){
+				var msg = plus.messaging.createMessage(plus.messaging.TYPE_SMS);
+				msg.to = [current_phone];
+				msg.body = '';
+				plus.messaging.sendMessage( msg );
+			}
+			
+			function Map() {
+				this.keys = new Array();
+				this.data = new Array();
+				//添加键值对
+				this.set = function (key, value) {
+					if (this.data[key] == null) {//如键不存在则身【键】数组添加键名
+						this.data[key] = new Array();
+						this.keys.push(key);
+					}
+					this.data[key].push(value);
+				};
+				//获取键对应的值
+				this.get = function (key) {
+				return this.data[key];
+				};
+				//去除键值，(去除键数据中的键名及对应的值)
+				this.remove = function (key) {
+				this.keys.remove(key);
+				this.data[key] = null;
+				};
+				//判断键值元素是否为空
+				this.isEmpty = function () {
+				return this.keys.length == 0;
+				};
+				//获取键值元素大小
+				this.size = function () {
+				return this.keys.length;
+				};
+			}
+			
+		</script>
+	</body>
+
+</html>

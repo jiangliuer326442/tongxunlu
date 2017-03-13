@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+			.mui-input-group {
+				margin-top: 10px;
+			}
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			.mui-input-group label {
+				width: 30%;
+			}
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			.mui-btn {
+				padding: 10px;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" id="back"></a>
+			<h1 class="mui-title">加入群</h1>
+		</header>
+		<div class="mui-content">
+			<form id='login-form' class="mui-input-group">
+				<div class="mui-input-row">
+					<label>群号码</label>
+					<input id='number' type="number" class="mui-input-clear mui-input" placeholder="群号码">
+				</div>
+			</form>
+			<div class="mui-content-padded">
+				<button id='adds' class="mui-btn mui-btn-block mui-btn-primary">加入</button>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/common.js"></script>
+		<script type="text/javascript">
+		
+			document.querySelector("#adds").addEventListener("tap",function(){
+				var number = document.querySelector("#number").value;
+				if(!number){
+					mui.alert("请输入群号码");
+					document.querySelector("#number").value = "";
+					return;
+				}
+				getToken(function(token){
+					mui.ajax(server+'/addgroup',{
+						data:{
+							number: number,
+							token: token
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:5000,//超时时间设置为10秒；
+						success:function(data){
+							if(data.status == 200){
+								mui.toast(data.info);
+								var GroupsWebview = plus.webview.getWebviewById("framegroups.html");
+							    //触发详情页面的newsId事件
+								mui.fire(GroupsWebview,'refresh');
+								mui.openWindow({id:"framegroups.html"});
+							    plus.webview.currentWebview().hide();
+						    }else{
+						    	mui.toast(data.info);
+						    }
+							document.querySelector("#number").value = "";
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							console.log(JSON.stringify(xhr));
+						}
+					});
+				});
+			});
+			mui.back = function(){
+				document.querySelector("#number").value = "";
+			    plus.webview.currentWebview().hide();
+			};
+		</script>
+	</body>
+
+</html>

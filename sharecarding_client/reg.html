@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>乐享名片</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/md5.js" type="text/javascript" charset="utf-8"></script>
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			.mui-btn {
+				padding: 10px;
+			}
+			#phone {
+				width: 55%;
+				margin: -10px -25px;
+			}
+			.mui-icon-clear{ right: 26% !important;}
+			
+			.dcontent {
+			    text-align: center;
+			}
+			.heading {
+			    margin: 0 1em;
+			    text-align: left;
+			}
+			.sharehref {
+			    width: 80%;
+			    -webkit-user-select: text;
+			    border: 1px solid #6C6C6C;
+			    -webkit-border-radius: 2px;
+			    border-radius: 2px;
+			    margin-bottom: .5em;
+			}
+			.button {
+			    font-size: 18px;
+			    font-weight: normal;
+			    text-decoration: none;
+			    display: block;
+			    text-align: center;
+			    overflow: hidden;
+			    text-overflow: ellipsis;
+			    white-space: nowrap;
+			    color: #FFF;
+			    background-color: #FFCC33;
+			    border: 1px solid #ECB100;
+			    padding: .5em 0em;
+			    margin: .5em .7em;
+			    -webkit-border-radius: 5px;
+			    border-radius: 5px;
+			}	
+			
+		</style>
+	</head>
+	<body style="background: url(images/bg.png);">
+		<header class="mui-bar mui-bar-nav" style="background-color: transparent;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">用户注册</h1>
+		</header>
+		<div class="mui-content" style="background-color: transparent;">
+				<h4 id="tip" style="color: white; font-family: '楷体'; text-align: center; margin: 10px auto;">
+					真实姓名，让通讯录更真实
+				</h4>
+				<form class="mui-input-group">
+					<div class="mui-input-row">
+						<label>真实姓名</label>
+						<input id='realname' type="text" class="mui-input-clear mui-input" placeholder="请填写真实姓名，姓氏开头">
+					</div>
+					<div class="mui-input-row">
+						<label>手机号码</label>
+						<input id='account' type="number" class="mui-input-clear mui-input" placeholder="请输入现在的手机号">
+					</div>
+					<div class="mui-input-row">
+						<label>验证码</label>
+						<input type="number" class="mui-input-clear" style="float: left; width: 35%;" id="codes" placeholder="收到的验证码">
+						<button type="button" class="mui-btn mui-btn-primary" style="width: 24%; margin-right: 2%; border-radius: 15px;" id="send">发送</button>
+					</div>
+					<div class="mui-input-row">
+						<label>密码</label>
+						<input id='password' type="text" class="mui-input-clear mui-input" placeholder="请输入登录密码">
+					</div>
+				</form>
+				<div class="mui-content-padded">
+					<button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="reg">注册</button>
+				</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/sqlite.js"></script>
+		<script>
+			var db = new DB('sharecarding',1024*1024*2);
+			var timeWait = 120;//等待5秒
+			var lat = "";
+			var lng = "";
+			var timer=null;//倒数计时器
+			(function($, doc) {
+				$.plusReady(function(){
+					plus.webview.currentWebview().setStyle({
+						softinputMode: "adjustResize"
+					});
+					var regButton = doc.getElementById('reg');
+					var sendButton = doc.getElementById('send');
+					var accountBox = doc.getElementById('account');
+					var nameBox = doc.getElementById('realname');
+					var passwordBox = doc.getElementById('password');
+					
+					var sendMessage = function(){
+						var regInfo = {
+							account: accountBox.value,
+							password: passwordBox.value,
+						};
+						var phone = get_mobile(plus.storage.getItem("phone") || regInfo.account);
+						if(phone == ''){
+							plus.nativeUI.toast('手机号格式不正确');
+							return;
+						}
+						$.ajax(server+'/sendrcode',{
+							data:{
+								phone: phone,
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								sendButton.removeEventListener('tap');
+								lefttime = timeWait;
+								doc.querySelector("#send").style.backgroundColor = "#efeff4";
+								doc.querySelector("#send").style.color = "#333333";
+								timer=setInterval(clock,1000);
+								wait();
+								if(data.status==200){
+									$.toast("发成送功");
+								}else{
+									$.alert(data.info);
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(errorThrown);
+							}
+						});
+					}
+					sendButton.addEventListener("tap",sendMessage);
+					
+					if(plus.storage.getItem("phone")){
+						$.trigger(sendButton,"tap");
+						accountBox.value = plus.storage.getItem("phone");
+						nameBox.value = plus.storage.getItem('realname');
+					}
+					plus.geolocation.getCurrentPosition( function ( p ) {
+						lat = p.coords.latitude;
+						lng = p.coords.longitude;
+						//$.alert( "Geolocation\nLatitude:" + p.coords.latitude + "\nLongitude:" + p.coords.longitude + "\nAltitude:" + p.coords.altitude );
+					}, function ( e ) {
+						 //$.alert( "Geolocation error: " + e.message );
+					} );
+					var lefttime = timeWait;
+					var clock = function(){
+					  doc.querySelector("#send").innerHTML=lefttime+"秒";
+					  lefttime--;
+					  if(lefttime<=0){
+					  	window.clearInterval(timer);
+					  }
+					}
+					var wait = function(){
+						setTimeout(function(){
+							doc.querySelector("#send").style.backgroundColor = "#007aff";
+							doc.querySelector("#send").style.color = "#fff";
+							doc.querySelector("#send").innerHTML= "重新发送";
+							sendButton.addEventListener('tap', sendMessage);
+						},timeWait*1000+1000);
+					}
+					regButton.addEventListener("tap",function(event){
+						var codes = doc.querySelector("#codes").value;
+						if(!codes){
+							plus.nativeUI.toast("请填写验证码");
+							return;
+						}
+						var regInfo = {
+							account: accountBox.value,
+							password: passwordBox.value,
+							realname: nameBox.value
+						};
+						var phone = get_mobile(plus.storage.getItem("phone") || regInfo.account);
+						if(phone == ''){
+							plus.nativeUI.toast('手机号格式不正确');
+							return;
+						}
+						var realname = regInfo.realname;
+						if(!realname){
+							plus.nativeUI.toast('请填写真实姓名');
+							return;
+						}
+						if(!check_surname(realname)){
+							plus.nativeUI.toast('请填写真实姓名');
+							return;
+						}
+						var password = regInfo.password;
+						if(password.length<4){
+							plus.nativeUI.toast("设定的密码太简单了");
+							return;
+						}
+						password = hex_md5(password);
+						plus.storage.removeItem("phone");
+						plus.storage.removeItem('realname');
+						plus.nativeUI.showWaiting("正在注册");
+						$.ajax(server+'/register',{
+							data:{
+								phone: plus.storage.getItem("phone") || regInfo.account,
+								codes: codes,
+								password: password,
+								realname: realname,
+								lng: lng,
+								lat: lat,
+								uuid:plus.device.uuid
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								plus.nativeUI.closeWaiting();
+								if(data.status==200){
+									db.query("CREATE TABLE IF NOT EXISTS contacts (phone text , name text , fletter text , photo text , address text , city text , area text , company text , position text)",function(){
+										db.query("CREATE TABLE IF NOT EXISTS records (phone text , name text , fletter text , photo text , address text, btime text)",function(){
+											setToken(data.data.token);
+											setTimeout("mui.openWindow({url:'frame.html', id:'frame.html'})",2000);
+											$.toast("注册成功");
+										});
+									});
+								}else{
+									$.alert(data.info);
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(errorThrown);
+							}
+						});
+					});
+				});
+			}(mui, document));
+			
+			mui.back = function(){
+				plus.storage.removeItem("phone");
+				plus.storage.removeItem('realname');
+			    mui.openWindow({
+			      url:'fill_number.html',
+			      id:'fill_number.html'
+			    });
+			};
+			
+		</script>
+	</body>
+</html>

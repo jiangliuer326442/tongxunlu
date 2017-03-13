@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>乐享名片</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/mui.indexedlist.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/iconfont.css">
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/sortPhoneNumbers.js" type="text/javascript" charset="utf-8"></script>
+		<style>
+			html,
+			body {
+				height: 100%;
+				overflow: hidden;
+			}
+			.mui-bar {
+				-webkit-box-shadow: none;
+				box-shadow: none;
+			}
+			p {
+				text-indent: 22px;
+			}
+			span.mui-icon {
+				font-size: 14px;
+				color: #007aff;
+				margin-left: -15px;
+				padding-right: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a id="refreshcontactor_btn" class="mui-icon mui-icon-reload mui-pull-left"></a>
+			<h1 class="mui-title">通话记录</h1>
+		</header>
+		<div class="mui-content">
+			<div id='list' class="mui-indexed-list">
+				<div class="mui-indexed-list-bar" id="indexes"></div>
+				<div class="mui-indexed-list-alert"></div>
+				<div class="mui-indexed-list-inner">
+					<div class="mui-indexed-list-empty-alert">没有数据</div>
+					<ul class="mui-table-view" id="id_contacts">					
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		<div id="contactor_option" class="mui-popover mui-popover-action mui-popover-bottom">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a href="#" id="dial_btn">打电话</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a href="#" id="sms_btn">发短信</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a href="#" id="deletes_btn">删除记录</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a href="#contactor_option"><b>取消</b></a>
+				</li>
+			</ul>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.indexedlist.js"></script>
+		<script src="js/sqlite.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			var db = new DB('sharecarding',1024*1024*2);
+			var contacts = null;
+			var current_phone = null;
+			var current_name = null;
+			var current_elem = null;
+			mui.ready(function(){
+				var header = document.querySelector('header.mui-bar');
+				var list = document.getElementById('list');
+				//calc hieght
+				list.style.height = (document.documentElement.clientHeight - header.offsetHeight) + 'px';
+				//create
+				window.indexedList = new mui.IndexedList(list);
+			});
+			mui.plusReady(function() {
+				setContacts();
+				plus.navigator.closeSplashscreen();
+			});
+			mui("#refreshcontactor_btn")[0].addEventListener("tap",function(){
+				mui.fire(plus.webview.currentWebview(),"refresh");
+			});
+			mui("#dial_btn")[0].addEventListener("tap", function(){
+				dial();
+			});
+			mui("#sms_btn")[0].addEventListener("tap", function(){
+				sendsms();
+			});
+			mui("#deletes_btn")[0].addEventListener("tap", function(){
+				deletePhone();
+				mui('#contactor_option').popover('toggle');
+			});
+			//添加newId自定义事件监听
+			window.addEventListener('refresh',function(event){
+				plus.nativeUI.showWaiting("正在刷新");
+			  	setContacts();
+			});
+			
+			function setContacts(){
+				var contacts_str = '';
+				db.fetchAll("select distinct strftime('%Y-%m-%d', btime/1000, 'unixepoch', 'localtime') as dates from records order by fletter asc",function(ret){
+					for(var i in ret){
+						var fun_t = function(i){
+							if(typeof ret[i] != 'undefined'){
+								contacts_str += '<li data-group="'+ret[i].dates+'" class="mui-table-view-divider mui-indexed-list-group">'+ret[i].dates+'</li>';
+								db.fetchAll("select * from records where strftime('%Y-%m-%d', btime/1000, 'unixepoch', 'localtime') = '"+ret[i].dates+"' order by `btime` desc",function(ret2){
+									for(var t in ret2){
+										var fun_p = function(t){
+											if(ret2[t].photo){
+												contacts_str += '<li data-value="'+ret2[t].fletter.substr(0,1)+'" data-name="'+ret2[t].name+'" data-tags="'+ret2[t].phone+'" class="mui-table-view-cell mui-media">'+
+												'<img class="mui-media-object mui-pull-left" src="'+server+ret2[t].photo+'">'+
+												'<div class="mui-media-body">'+
+													ret2[t].name+
+													'<p class="mui-ellipsis">'+ret2[t].address+'</p>'+
+												'</div>'+
+										'</li>';
+											}else{
+												contacts_str += '<li data-value="'+ret2[t].fletter.substr(0,1)+'" data-name="'+ret2[t].name+'" data-tags="'+ret2[t].phone+'" class="mui-table-view-cell mui-indexed-list-item">'+
+									'<div class="mui-slider-right mui-disabled">'+
+										'<a class="mui-btn mui-btn-red">删除</a>'+
+									'</div>'+
+									'<div class="mui-slider-handle">'+ret2[t].name+'('+ret2[t].phone+')'+'</div>'+
+								'</li>';
+											}
+											t = parseInt(t)+1;
+											if(t < ret2.length){
+												fun_p(t);
+											}else{
+												i = parseInt(i)+1;
+												if(i == ret.length){
+													plus.nativeUI.closeWaiting();
+													document.getElementById('id_contacts').innerHTML = contacts_str;
+													
+													mui('.mui-table-view-cell').on('tap', 'div', function(){
+														current_elem = this.parentNode;
+														current_phone = this.parentNode.attributes["data-tags"].value;
+														current_name = this.parentNode.attributes["data-name"].value;
+														mui('#contactor_option').popover('toggle');
+													});
+													mui('.mui-indexed-list-item').on('tap', '.mui-btn', function(event) {
+														var elem = this;
+														var li = elem.parentNode.parentNode;
+														current_phone = li.attributes["data-tags"].value;
+														current_elem = elem.parentNode.parentNode;
+														deletePhone();
+													});
+													
+												}else{
+													fun_t(i);
+													return;
+												}
+											}
+										}
+										fun_p(0);
+										break;
+									}
+								});
+							}
+						}
+						fun_t(0);
+						break;
+					}
+				});
+			}
+			
+			//打电话
+			function dial(){
+				db.fetchAll("select * from contacts where phone = '"+current_phone+"'",function(ret){
+					db.query("delete from records where phone = '"+current_phone+"'",function(){
+						db.query("INSERT INTO records (phone,name,fletter,photo,address,btime) values ('"+ret[0].phone+"','"+ret[0].name+"','"+ret[0].fletter+"','"+ret[0].photo+"','"+ret[0].address+"','"+Date.parse(new Date())+"')",function(){
+							mui('#contactor_option').popover('toggle');
+							setContacts();
+						});
+					});
+					
+				});
+				plus.device.dial( current_phone, false );
+			}
+			
+			//短信
+			function sendsms(){
+				db.fetchAll("select * from contacts where phone = '"+current_phone+"'",function(ret){
+					db.query("delete from records where phone = '"+current_phone+"'",function(){
+						db.query("INSERT INTO records (phone,name,fletter,photo,address,btime) values ('"+ret[0].phone+"','"+ret[0].name+"','"+ret[0].fletter+"','"+ret[0].photo+"','"+ret[0].address+"','"+Date.parse(new Date())+"')",function(){
+							mui('#contactor_option').popover('toggle');
+							setContacts();
+						});
+					});
+					
+				});
+				var msg = plus.messaging.createMessage(plus.messaging.TYPE_SMS);
+				msg.to = [current_phone];
+				msg.body = '';
+				plus.messaging.sendMessage( msg );
+			}
+			
+			//删除电话
+			function deletePhone(){
+				db.query("delete from records where phone='"+current_phone+"'",function(){
+					setContacts();
+				});
+			}
+			
+		</script>
+	</body>
+
+</html>

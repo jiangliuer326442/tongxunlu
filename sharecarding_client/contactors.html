@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>乐享名片</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/mui.indexedlist.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/iconfont.css">
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/sortPhoneNumbers.js" type="text/javascript" charset="utf-8"></script>
+		<style>
+			html,
+			body {
+				height: 100%;
+				overflow: hidden;
+			}
+			.mui-bar {
+				-webkit-box-shadow: none;
+				box-shadow: none;
+			}
+			#topPopover {
+				position: fixed;
+				top: 16px;
+				right: 6px;
+				width: 7em;
+			}
+			#topPopover .mui-popover-arrow {
+				left: auto;
+				right: 6px;
+			}
+			p {
+				text-indent: 22px;
+			}
+			span.mui-icon {
+				font-size: 14px;
+				color: #007aff;
+				margin-left: -15px;
+				padding-right: 10px;
+			}
+			#topPopover {
+				height: 135px;
+			}
+			#topPopover .mui-content {
+				padding: 10px;
+			}
+			#topPopover .mui-icon{
+				margin-left: 0px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">通讯录</h1>
+			<button id="refreshcontactor_btn" class="mui-btn mui-btn-blue mui-btn-link mui-btn-nav mui-pull-left"><span class="mui-icon mui-icon-reload"></span>刷新</button>
+			<a href="#topPopover" class="mui-action-menu mui-icon mui-icon-bars mui-pull-right"></a>
+		</header>
+		<div class="mui-content">
+			<div id='list' class="mui-indexed-list">
+				<div class="mui-indexed-list-bar" id="indexes"></div>
+				<div class="mui-indexed-list-alert"></div>
+				<div class="mui-indexed-list-inner">
+					<div class="mui-indexed-list-empty-alert">没有数据</div>
+					<ul class="mui-table-view" id="id_contacts">					
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		<div id="topPopover" class="mui-popover">
+			<div class="mui-popover-arrow"></div>
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">
+							<a href="#" id="addcontactor_btn"><span class="mui-icon mui-icon-personadd"></span>添加</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href="#" id="scan"><span class="mui-icon iconfont icon-saoyisao"></span>扫一扫</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href="#" id="downloadcontactor_btn"><span class="mui-icon iconfont icon-xiazai"></span>下载</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.indexedlist.js"></script>
+		<script src="js/sqlite.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			var db = new DB('sharecarding',1024*1024*2);
+			var lat = "";
+			var lng = "";
+			var contacts = null;
+			var current_phone = null;
+			var current_name = null;
+			var current_elem = null;
+			mui.init({
+			  preloadPages:[{
+			    id:'editcontactor.html',
+			    url:'editcontactor.html'           
+			  },{
+			    id:'addcontactor.html',
+			    url:'addcontactor.html'           
+			  },{
+			    id:'cardview.html',
+			    url:'cardview.html'           
+			  }]
+			});
+			mui.ready(function(){
+				var header = document.querySelector('header.mui-bar');
+				var list = document.getElementById('list');
+				//calc hieght
+				list.style.height = (document.documentElement.clientHeight - header.offsetHeight) + 'px';
+				//create
+				window.indexedList = new mui.IndexedList(list);
+			});
+			mui.plusReady(function() {
+				plus.geolocation.getCurrentPosition( function ( p ) {
+					lat = p.coords.latitude;
+					lng = p.coords.longitude;
+					
+				}, function ( e ) {
+					 //$.alert( "Geolocation error: " + e.message );
+				} );
+				setContacts();
+				plus.navigator.closeSplashscreen();
+			});
+			mui("#scan")[0].addEventListener('tap',function(){
+				mui.openWindow({url:"scan.html",id:"scan.html"});
+				mui('#topPopover').popover('toggle');
+			});
+			mui("#addcontactor_btn")[0].addEventListener("tap",function(){
+				plus.webview.show(plus.webview.getWebviewById("addcontactor.html"));
+				mui('#topPopover').popover('toggle');
+			});
+			mui("#refreshcontactor_btn")[0].addEventListener("tap",function(){
+				mui.fire(plus.webview.currentWebview(),"refresh");
+			});
+			mui("#downloadcontactor_btn")[0].addEventListener("tap", function(){
+				mui('#topPopover').popover('toggle');
+				plus.nativeUI.showWaiting("正在保存联系人...");
+				plus.contacts.getAddressBook( plus.contacts.ADDRESSBOOK_PHONE, function( addressbook ) {
+					// 可通过addressbook进行通讯录操作
+					addressbook.find( null, function ( contacts ) {
+						if ( contacts.length> 0 ) {
+							for(var i=0; i<contacts.length; i++){
+								var dc = contacts[i];
+								dc.remove();
+							}
+						}
+					});
+					db.fetchAll("select * from contacts", function(ret){
+						var count = 0;
+						for(var i in ret){
+							var t = function(i){
+								//向通讯录中添加联系人
+								var contact = addressbook.create();
+								contact.name = {givenName:ret[i].name};
+								contact.phoneNumbers = [{type:"手机",value:ret[i].phone,preferred:true}];
+								contact.save();
+								count++;
+								if(count+1 == ret.length){
+									plus.nativeUI.closeWaiting();
+									mui.toast("下载完成");
+								}
+							}
+							t(i);
+						}
+					});
+				}, function ( e ) {
+					alert( "Get address book failed: " + e.message );
+				} );
+			});
+			
+			//添加newId自定义事件监听
+			window.addEventListener('refresh',function(event){
+				plus.nativeUI.showWaiting("正在刷新中，请稍等\n若一直加载请点左上角按钮手动刷新");
+			  	getToken(function(token){
+					mui.ajax(server+'/getcontactors',{
+						data:{
+							token: token,
+							lng: lng,
+							lat: lat
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						success:function(data){
+							if(data.status==200){
+								var contacts = data.data;
+								db.query("delete from contacts");
+								var contactor_arr = contacts.split('|');
+								for(var i in contactor_arr){
+									var t = function(i, total){
+										var contactor_detail_arr = contactor_arr[i].split(':');
+										var phone = contactor_detail_arr[1];
+										var name = contactor_detail_arr[0];
+										if(contactor_detail_arr.length == 2){
+											var photo = '';
+											var address = '';
+											var city = '';
+											var areas = '';
+										}else{
+											var photo = contactor_detail_arr[2];
+											var address = contactor_detail_arr[3];
+											var city = contactor_detail_arr[4];
+											var areas = contactor_detail_arr[5];
+										}
+										if(contactor_detail_arr.length <= 6){
+											var company = '';
+											var positions = '';
+										}else{
+											var company = contactor_detail_arr[6];
+											var positions = contactor_detail_arr[7];
+										}
+										if(name){
+											var fletter = makePy(name.substr(0,1));	
+											db.query("INSERT INTO contacts (phone,name,fletter,photo,address,city,area,company,position) values ('"+phone+"','"+name+"','"+fletter+"','"+photo+"','"+address+"','"+city+"','"+areas+"','"+company+"','"+positions+"')",function(result){
+												if(parseInt(i)+2 == total){
+													setContacts();
+												}
+											});
+										}
+									}
+									t(i,contactor_arr.length);
+								}
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							console.log(errorThrown);
+						}
+					});
+				});
+			});
+			
+			function setContacts(){
+				var contacts_str = '';
+				db.fetchAll('select distinct fletter from contacts order by fletter asc',function(ret){
+					for(var i in ret){
+						var fun_t = function(i){
+							if(typeof ret[i] != 'undefined'){
+								var newNode = document.createElement("a");
+								newNode.innerHTML = ret[i].fletter;
+								mui("#indexes")[0].appendChild(newNode);
+								contacts_str += '<li data-group="'+ret[i].fletter+'" class="mui-table-view-divider mui-indexed-list-group">'+ret[i].fletter+'</li>';
+								db.fetchAll("select * from contacts where fletter = '"+ret[i].fletter+"' order by `name` asc",function(ret2){
+									for(var t in ret2){
+										var fun_p = function(t){
+											if(ret2[t].photo){
+												if(ret2[t].position){
+													var mediabody = '<div class="mui-media-body">'+ret2[t].name+' ('+ret2[t].city+' '+ret2[t].area+')'+'<p class="mui-ellipsis">'+ret2[t].company+' '+ret2[t].position+'</p>';
+												}else{
+													var mediabody = '<div class="mui-media-body">'+ret2[t].name+'<p class="mui-ellipsis">'+ret2[t].city+' '+ret2[t].area+'</p>';
+												}
+												contacts_str += '<li data-value="'+ret2[t].fletter.substr(0,1)+'" data-name="'+ret2[t].name+'" data-tags="'+ret2[t].phone+'" class="mui-table-view-cell mui-media">'+
+												'<img class="mui-media-object mui-pull-left" src="'+server+ret2[t].photo+'">' + mediabody + '</div>'+
+										'</li>';
+											}else{
+												contacts_str += '<li data-value="'+ret2[t].fletter.substr(0,1)+'" data-name="'+ret2[t].name+'" data-tags="'+ret2[t].phone+'" class="mui-table-view-cell mui-indexed-list-item">'+
+									'<div class="mui-slider-right mui-disabled">'+
+										'<a class="mui-btn mui-btn-red">删除</a>'+
+									'</div>'+
+									'<div class="mui-slider-handle">'+ret2[t].name+'('+ret2[t].phone+')'+'</div>'+
+								'</li>';
+											}
+											t = parseInt(t)+1;
+											if(t < ret2.length){
+												fun_p(t);
+											}else{
+												i = parseInt(i)+1;
+												if(i == ret.length){
+													plus.nativeUI.closeWaiting();
+													document.getElementById('id_contacts').innerHTML = contacts_str;
+													mui('.mui-media').on('tap', 'div', function(){
+														current_elem = this.parentNode;
+														current_phone = current_elem.attributes["data-tags"].value;
+														current_name = current_elem.attributes["data-name"].value;
+														bts=[{title:"查看名片"},{title:"打电话"},{title:"发短信"},{title:"编辑联系人"},{title:"删除联系人"}];
+														plus.nativeUI.actionSheet({cancel:"取消",buttons:bts},
+															function(e){
+																var i=e.index;
+																switch (i){
+																	case 1:
+																		var cardPage = null;
+																	    if(!cardPage){
+																	      cardPage = plus.webview.getWebviewById('cardview.html');
+																	    }
+																	    //触发详情页面的newsId事件
+																	    mui.fire(cardPage,'getcard',{
+																	      phone:current_phone
+																	    });
+																	    //打开详情页面          
+																	    mui.openWindow({
+																	      id:'cardview.html'
+																	    });
+																		break;
+																	case 2:
+																		dial()
+																		break;
+																	case 3:
+																		var bts=["取消",'发送给“'+current_name+'”'];
+																		plus.nativeUI.prompt("短信内容",function(e){
+																			if(e.index == 1){
+																				plus.nativeUI.showWaiting("正在发送");
+																			  	getToken(function(token){
+																					mui.ajax('http://sharecarding.com/index.php',{
+																						data:{
+																							token: token,
+																							phone: current_phone,
+																							content: e.value
+																						},
+																						dataType:'json',//服务器返回json格式数据
+																						type:'post',//HTTP请求类型
+																						timeout:10000,//超时时间设置为10秒；
+																						success:function(data){
+																							plus.nativeUI.closeWaiting();
+																							if(data.result == "ok" && data.status == "successed_online"){
+																								mui.toast("发送成功");
+																								return;
+																							}else{
+																								var to=current_phone;
+																								var msg = plus.messaging.createMessage(plus.messaging.TYPE_SMS);
+																								msg.to=[to];
+																								msg.body=e.value;
+																								msg.silent=false;
+																								plus.messaging.sendMessage( msg );
+																								return;
+																							}
+																						},
+																						error:function(xhr,type,errorThrown){
+		
+																						}
+																					});
+																				});
+																				db.fetchAll("select * from contacts where phone = '"+current_phone+"'",function(ret){
+																					db.query("delete from records where phone = '"+current_phone+"'",function(){
+																						db.query("INSERT INTO records (phone,name,fletter,photo,address,btime) values ('"+current_phone+"','"+current_name+"','"+ret[0].fletter+"','"+ret[0].photo+"','"+ret[0].address+"','"+Date.parse(new Date())+"')",function(){
+																							mui('#contactor_option').popover('toggle');
+																							var recordsPage = null;
+																						    if(!recordsPage){
+																						      recordsPage = plus.webview.getWebviewById('framerecords.html');
+																						    }
+																						    //触发详情页面的newsId事件
+																						    mui.fire(recordsPage,'refresh');
+																						});
+																					});
+																					
+																				});
+																			}
+																		},"发送短信","短信内容",bts);
+																		break;
+																	case 4:
+																		var detailPage = null;
+																	    if(!detailPage){
+																	      detailPage = plus.webview.getWebviewById('editcontactor.html');
+																	    }
+																	    //触发详情页面的newsId事件
+																	    mui.fire(detailPage,'setcontactor',{
+																	      phone:current_phone,
+																	      name:current_name
+																	    });
+																	    //打开详情页面          
+																	    mui.openWindow({
+																	      id:'editcontactor.html'
+																	    });
+																		break;
+																	case 5:
+																		deletePhone()
+																		break;
+																	default:
+																		break;
+																}
+															}
+														);
+													});
+													mui('.mui-indexed-list-item').on('tap', 'div', function(){
+														current_elem = this.parentNode;
+														current_phone = current_elem.attributes["data-tags"].value;
+														current_name = current_elem.attributes["data-name"].value;
+														bts=[{title:"打电话"},{title:"发短信"},{title:"编辑联系人"},{title:"删除联系人"}];
+														plus.nativeUI.actionSheet({cancel:"取消",buttons:bts},
+															function(e){
+																var i=e.index;
+																switch (i){
+																	case 1:
+																		dial()
+																		break;
+																	case 2:
+																		var bts=["取消",'发送给“'+current_name+'”'];
+																		plus.nativeUI.prompt("短信内容",function(e){
+																			if(e.index == 1){
+																				var to=current_phone;
+																				var msg = plus.messaging.createMessage(plus.messaging.TYPE_SMS);
+																				msg.to=[to];
+																				msg.body=e.value;
+																				msg.silent=false;
+																				plus.messaging.sendMessage( msg );
+																				db.fetchAll("select * from contacts where phone = '"+current_phone+"'",function(ret){
+																					db.query("delete from records where phone = '"+current_phone+"'",function(){
+																						db.query("INSERT INTO records (phone,name,fletter,photo,address,btime) values ('"+current_phone+"','"+current_name+"','"+ret[0].fletter+"','"+ret[0].photo+"','"+ret[0].address+"','"+Date.parse(new Date())+"')",function(){
+																							mui('#contactor_option').popover('toggle');
+																							var recordsPage = null;
+																						    if(!recordsPage){
+																						      recordsPage = plus.webview.getWebviewById('framerecords.html');
+																						    }
+																						    //触发详情页面的newsId事件
+																						    mui.fire(recordsPage,'refresh');
+																						});
+																					});
+																					
+																				});
+																			}
+																		},"发送短信","短信内容",bts);
+																		break;
+																	case 3:
+																		var detailPage = null;
+																	    if(!detailPage){
+																	      detailPage = plus.webview.getWebviewById('editcontactor.html');
+																	    }
+																	    //触发详情页面的newsId事件
+																	    mui.fire(detailPage,'setcontactor',{
+																	      phone:current_phone,
+																	      name:current_name
+																	    });
+																	    //打开详情页面          
+																	    mui.openWindow({
+																	      id:'editcontactor.html'
+																	    });
+																		break;
+																	case 4:
+																		deletePhone()
+																		break;
+																	default:
+																		break;
+																}
+															}
+														);
+													});
+													mui('.mui-indexed-list-item').on('tap', '.mui-btn', function(event) {
+														var elem = this;
+														var li = elem.parentNode.parentNode;
+														current_phone = li.attributes["data-tags"].value;
+														current_elem = elem.parentNode.parentNode;
+														deletePhone();
+													});
+												}else{
+													fun_t(i);
+													return;
+												}
+											}
+										}
+										fun_p(0);
+										break;
+									}
+								});
+							}
+						}
+						fun_t(0);
+						break;
+					}
+					if(ret.length == 0){
+						mui.fire(plus.webview.currentWebview(),"refresh");
+					}
+				});
+			}
+			
+			//打电话
+			function dial(){
+				db.fetchAll("select * from contacts where phone = '"+current_phone+"'",function(ret){
+					db.query("delete from records where phone = '"+current_phone+"'",function(){
+						db.query("INSERT INTO records (phone,name,fletter,photo,address,btime) values ('"+ret[0].phone+"','"+ret[0].name+"','"+ret[0].fletter+"','"+ret[0].photo+"','"+ret[0].address+"','"+Date.parse(new Date())+"')",function(){
+							mui('#contactor_option').popover('toggle');
+							var recordsPage = null;
+						    if(!recordsPage){
+						      recordsPage = plus.webview.getWebviewById('framerecords.html');
+						    }
+						    //触发详情页面的newsId事件
+						    mui.fire(recordsPage,'refresh');
+						});
+					});
+				});
+				plus.device.dial( current_phone, false );
+			}
+			
+			//删除电话
+			function deletePhone(){
+				var li = current_elem;
+				var btnArray = ['确认', '取消'];	
+				mui.confirm('确认删除该条记录？', '乐享名片', btnArray, function(e) {
+					if (e.index == 0) {
+						plus.nativeUI.showWaiting("正在删除");
+					  	getToken(function(token){
+							mui.ajax(server+'/removecontactors',{
+								data:{
+									token: token,
+									phone: current_phone
+								},
+								dataType:'json',//服务器返回json格式数据
+								type:'post',//HTTP请求类型
+								timeout:10000,//超时时间设置为10秒；
+								success:function(data){
+									if(data.status==200){
+										plus.contacts.getAddressBook( plus.contacts.ADDRESSBOOK_PHONE, 
+											function( addressbook ) {
+												// 可通过addressbook进行通讯录操作
+												addressbook.find( null, 
+													function ( contacts ) {
+														if ( contacts.length> 0 ) {
+															var dc = contacts[0];
+															dc.remove();
+															db.query("delete from contacts where phone='"+current_phone+"'",function(){
+																setContacts();
+															});
+														}
+													}, 
+													function ( e ) {
+													}, 
+													{filter:[{logic:"or",field:"phoneNumbers",value:current_phone}],multi:false} 
+												);
+											} 
+										);
+										mui.toast(data.info);
+									}else{
+										//mui.alert(data.info);
+									}
+								},
+								error:function(xhr,type,errorThrown){
+									//异常处理；
+									console.log(errorThrown);
+								}
+							});
+						});
+					}
+				});
+			}
+			
+		</script>
+	</body>
+
+</html>

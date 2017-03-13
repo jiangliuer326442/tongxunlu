@@ -1,0 +1,219 @@
+[0mGET / [36m304 [0m15.934 ms - -[0m
+OK
+[0mGET /stylesheets/style.css [36m304 [0m2.987 ms - -[0m
+[0mGET /favicon.ico [32m200 [0m3.345 ms - 67646[0m
+[0mPOST /sendrcode [32m200 [0m32.449 ms - 46[0m
+[0mGET /update.json [32m200 [0m1.609 ms - 192[0m
+[0mPOST /collectphone [32m200 [0m161.694 ms - 46[0m
+[0mPOST /login [32m200 [0m8.619 ms - 88[0m
+[0mPOST /setgetui [32m200 [0m6.902 ms - 41[0m
+[0mPOST /listgroup [32m200 [0m8.493 ms - 195[0m
+[0mPOST /getuserinfo [32m200 [0m6.634 ms - 473[0m
+吴林辉:18906032142|周小洁:18352070979|闫海军:13914627852|沈海燕:18068693707|张琼芳:15262909134|通讯录 ios 冯保惠:18911032884|李兰:13694287981|文波:15687177279|张俊:13167102701|上海百度推广:15001757479|李加锋:13564899088|朱浩:18951407642|方海龙:15195830609|信融天下余杨奎:13414902401|薛杏梗:18260623135|上海财务代理:13122409600|戴星星:15105110755|艾杰飞人力资源:15000587187|金贝壳 曾哥:13817528790|文波:18501791578|大舅妈:13166107451|小吕:18052824156|刘映雪:18951408284|方君君:18352071278|小马:18013441499|青青:18352035687|学峰:18652820386|缘来鲜李辉:18701734177|四姨:15189257110|周慧钢:18516563852|王云:15722796636|老黄:18616119816|苗尊领:15052041316|周慧钢:18516573852|房东张俊:13564885202|王学峰:15139499798|肖力:13611684560|万强:14705150715|信融天下澤哥:18688374818|王磊:13921399634|闫鑫:15365862778|绍东权:15951933892|张书成:18522022921|通讯录 安卓 杨加乐:18551091994|张华:18652812665|方芳:18262285360|郭庆庆:13815152687|梁丽娟:13851333497|曾凡军:13817733804|袁修斌:18305160191|陶兰:15950271975|孙钰爸爸:13270034469|周学良:18662090982|牟大维:15618475050|季冰蓉:13905295502|孙爱珍:18905280804|尤成成:15605290907|苏凯:18013445499|邱金冰:15050868990|方乙同:15951820868|张沈波:18121020447|冒小慧:18662259242|孙钰小姨:18918166604|方乙同:18501704596|顾升级:18662051239|张美:13815155893|陈良周师傅:15161920057|胡怀播:13337778966|方国发:18761287118|小猫:18652865593|张明珠:17802672606|张思帆:18951402979|徐景 高顿:17717626213|张俊老婆:18916952932|吴亮:15651985676|袁修斌:18796019653|鑫金所 孙渡:18629577321|缘来鲜李浩然:13162105045|上海长城宽带:18621029075|项仁洋:13952949248|庄莎莎:18061821107|张海丽:15262903565|张俊:15502172960|方国财:15961927648|盐城 公司注册:15366554444|张创:18602896391|周婷婷:13524583402|王韬:18629867888|周婷婷:15669992791|小苏:15262901257|王芳:18061180293|绍东权:15365693126|金贝壳:15121085325|孙钰:15216669259:/upload/be7935200919ac8ac87b0604ca02ce9e.jpg:江苏省盐城市阜宁县上海路:盐城市:阜宁县:华燕消防:财务会计|梁宝兰:18252244257:/upload/head.jpg:江苏省盐城市阜宁县上海路:盐城市:阜宁县|方海亮:18662026482:/upload/c6504b6c2c3d0e1191c313a8cce640c4.jpg::::艾杰飞人力资源:PHP担当|
+[0mPOST /getcontactors [32m200 [0m124.696 ms - 2505[0m
+[0mGET /upload/c6504b6c2c3d0e1191c313a8cce640c4.jpg [32m200 [0m5.466 ms - 207[0m
+OK
+[0mGET /upload/head.jpg [32m200 [0m0.792 ms - 67646[0m
+[0mGET /upload/be7935200919ac8ac87b0604ca02ce9e.jpg [32m200 [0m0.547 ms - 51040[0m
+[0mPOST /getmycard [32m200 [0m6.072 ms - 451[0m
+[0mPOST /getmycard [32m200 [0m5.038 ms - 451[0m
+吴林辉:18906032142|周小洁:18352070979|闫海军:13914627852|沈海燕:18068693707|张琼芳:15262909134|通讯录 ios 冯保惠:18911032884|李兰:13694287981|文波:15687177279|张俊:13167102701|上海百度推广:15001757479|李加锋:13564899088|朱浩:18951407642|方海龙:15195830609|信融天下余杨奎:13414902401|薛杏梗:18260623135|上海财务代理:13122409600|戴星星:15105110755|艾杰飞人力资源:15000587187|金贝壳 曾哥:13817528790|文波:18501791578|大舅妈:13166107451|小吕:18052824156|刘映雪:18951408284|方君君:18352071278|小马:18013441499|青青:18352035687|学峰:18652820386|缘来鲜李辉:18701734177|四姨:15189257110|周慧钢:18516563852|王云:15722796636|老黄:18616119816|苗尊领:15052041316|周慧钢:18516573852|房东张俊:13564885202|孙爱珍:18905280804|尤成成:15605290907|苏凯:18013445499|邱金冰:15050868990|方乙同:15951820868|张沈波:18121020447|冒小慧:18662259242|孙钰小姨:18918166604|方乙同:18501704596|顾升级:18662051239|张美:13815155893|陈良周师傅:15161920057|胡怀播:13337778966|方国发:18761287118|小猫:18652865593|张明珠:17802672606|张思帆:18951402979|徐景 高顿:17717626213|张俊老婆:18916952932|王学峰:15139499798|肖力:13611684560|万强:14705150715|信融天下澤哥:18688374818|王磊:13921399634|闫鑫:15365862778|绍东权:15951933892|张书成:18522022921|通讯录 安卓 杨加乐:18551091994|张华:18652812665|方芳:18262285360|郭庆庆:13815152687|梁丽娟:13851333497|曾凡军:13817733804|袁修斌:18305160191|陶兰:15950271975|孙钰爸爸:13270034469|周学良:18662090982|牟大维:15618475050|季冰蓉:13905295502|吴亮:15651985676|袁修斌:18796019653|鑫金所 孙渡:18629577321|缘来鲜李浩然:13162105045|上海长城宽带:18621029075|项仁洋:13952949248|庄莎莎:18061821107|张海丽:15262903565|张俊:15502172960|方国财:15961927648|盐城 公司注册:15366554444|张创:18602896391|周婷婷:13524583402|王韬:18629867888|周婷婷:15669992791|小苏:15262901257|王芳:18061180293|绍东权:15365693126|金贝壳:15121085325|方海亮:18662026482:/upload/c6504b6c2c3d0e1191c313a8cce640c4.jpg:上海市闵行区永秀路:上海市:闵行区:艾杰飞人力资源:PHP担当|孙钰:15216669259:/upload/be7935200919ac8ac87b0604ca02ce9e.jpg:江苏省盐城市阜宁县上海路:盐城市:阜宁县:华燕消防:财务会计|梁宝兰:18252244257:/upload/head.jpg:江苏省盐城市阜宁县上海路:盐城市:阜宁县|
+[0mPOST /getcontactors [32m200 [0m103.607 ms - 2550[0m
+[0mGET /upload/be7935200919ac8ac87b0604ca02ce9e.jpg [36m304 [0m1.611 ms - -[0m
+[0mGET /upload/head.jpg [36m304 [0m1.989 ms - -[0m
+[0mGET /upload/c6504b6c2c3d0e1191c313a8cce640c4.jpg [32m200 [0m1.532 ms - 207[0m
+OK
+[0mPOST /getcard [32m200 [0m4.554 ms - 451[0m
+[0mGET /update.json [32m200 [0m0.844 ms - 192[0m
+[0mPOST /collectphone [32m200 [0m122.469 ms - 46[0m
+[0mPOST /setgetui [32m200 [0m13.123 ms - 41[0m
+[0mPOST /getuserinfo [32m200 [0m4.733 ms - 537[0m
+[0mGET /upload/c6504b6c2c3d0e1191c313a8cce640c4.jpg [32m200 [0m4.386 ms - 207[0m
+OK
+[0mGET /upload/c6504b6c2c3d0e1191c313a8cce640c4.jpg [32m200 [0m1.171 ms - 207[0m
+OK
+[0mGET /upload/head.jpg [36m304 [0m0.453 ms - -[0m
+[0mGET /upload/be7935200919ac8ac87b0604ca02ce9e.jpg [36m304 [0m0.283 ms - -[0m
+[0mPOST /listmembers [32m200 [0m12.714 ms - 313[0m
+[0mGET /upload/head.jpg [36m304 [0m0.420 ms - -[0m
+[0mGET /upload/be7935200919ac8ac87b0604ca02ce9e.jpg [36m304 [0m1.789 ms - -[0m
+[0mGET /upload/c6504b6c2c3d0e1191c313a8cce640c4.jpg [32m200 [0m2.667 ms - 207[0m
+OK
+[0mGET /update.json [36m304 [0m0.528 ms - -[0m
+[0mPOST /setgetui [32m200 [0m4.027 ms - 41[0m
+[0mPOST /getuserinfo [32m200 [0m3.586 ms - 537[0m
+[0mGET /upload/c6504b6c2c3d0e1191c313a8cce640c4.jpg [32m200 [0m2.587 ms - 207[0m
+OK
+[0mGET /upload/c6504b6c2c3d0e1191c313a8cce640c4.jpg [32m200 [0m2.129 ms - 207[0m
+OK
+[0mGET /upload/head.jpg [36m304 [0m0.334 ms - -[0m
+[0mGET /upload/be7935200919ac8ac87b0604ca02ce9e.jpg [36m304 [0m0.525 ms - -[0m
+文波:18501791578|大舅妈:13166107451|小吕:18052824156|刘映雪:18951408284|方君君:18352071278|小马:18013441499|青青:18352035687|学峰:18652820386|缘来鲜李辉:18701734177|四姨:15189257110|周慧钢:18516563852|王云:15722796636|老黄:18616119816|苗尊领:15052041316|周慧钢:18516573852|房东张俊:13564885202|王学峰:15139499798|肖力:13611684560|万强:14705150715|信融天下澤哥:18688374818|王磊:13921399634|闫鑫:15365862778|绍东权:15951933892|张书成:18522022921|通讯录 安卓 杨加乐:18551091994|张华:18652812665|方芳:18262285360|郭庆庆:13815152687|梁丽娟:13851333497|曾凡军:13817733804|袁修斌:18305160191|陶兰:15950271975|孙钰爸爸:13270034469|周学良:18662090982|牟大维:15618475050|季冰蓉:13905295502|孙爱珍:18905280804|尤成成:15605290907|苏凯:18013445499|邱金冰:15050868990|方乙同:15951820868|张沈波:18121020447|冒小慧:18662259242|孙钰小姨:18918166604|方乙同:18501704596|顾升级:18662051239|张美:13815155893|陈良周师傅:15161920057|胡怀播:13337778966|方国发:18761287118|小猫:18652865593|张明珠:17802672606|张思帆:18951402979|徐景 高顿:17717626213|张俊老婆:18916952932|吴亮:15651985676|袁修斌:18796019653|鑫金所 孙渡:18629577321|缘来鲜李浩然:13162105045|上海长城宽带:18621029075|项仁洋:13952949248|庄莎莎:18061821107|张海丽:15262903565|张俊:15502172960|方国财:15961927648|盐城 公司注册:15366554444|张创:18602896391|周婷婷:13524583402|王韬:18629867888|周婷婷:15669992791|小苏:15262901257|王芳:18061180293|绍东权:15365693126|金贝壳:15121085325|吴林辉:18906032142|周小洁:18352070979|闫海军:13914627852|沈海燕:18068693707|张琼芳:15262909134|通讯录 ios 冯保惠:18911032884|李兰:13694287981|文波:15687177279|张俊:13167102701|上海百度推广:15001757479|李加锋:13564899088|朱浩:18951407642|方海龙:15195830609|信融天下余杨奎:13414902401|薛杏梗:18260623135|上海财务代理:13122409600|戴星星:15105110755|艾杰飞人力资源:15000587187|金贝壳 曾哥:13817528790|孙钰:15216669259:/upload/be7935200919ac8ac87b0604ca02ce9e.jpg:江苏省盐城市阜宁县上海路:盐城市:阜宁县:华燕消防:财务会计|梁宝兰:18252244257:/upload/head.jpg:江苏省盐城市阜宁县上海路:盐城市:阜宁县|方海亮:18662026482:/upload/c6504b6c2c3d0e1191c313a8cce640c4.jpg:上海市闵行区永秀路:上海市:闵行区:艾杰飞人力资源:PHP担当|
+[0mPOST /getcontactors [32m200 [0m83.113 ms - 2550[0m
+[0mGET /upload/c6504b6c2c3d0e1191c313a8cce640c4.jpg [32m200 [0m1.427 ms - 207[0m
+OK
+[0mPOST /getmycard [32m200 [0m5.301 ms - 451[0m
+[0mPOST /getmycard [32m200 [0m4.440 ms - 451[0m
+[0mPOST /getmycard [32m200 [0m5.501 ms - 451[0m
+[0mGET /update.json [36m304 [0m0.573 ms - -[0m
+[0mGET /update.json [32m200 [0m0.962 ms - 192[0m
+[0mGET /sharecarding.apk [32m200 [0m1.044 ms - 6688656[0m
+[0mGET /sharecarding.apk [32m200 [0m0.711 ms - 6688656[0m
+[0mPOST /collectphone [32m200 [0m125.252 ms - 46[0m
+[0mGET /sharecarding.apk [32m200 [0m3.366 ms - 6688656[0m
+[0mGET /update.json [36m304 [0m0.480 ms - -[0m
+[0mPOST /collectphone [32m200 [0m113.918 ms - 46[0m
+[0mPOST /login [32m200 [0m4.505 ms - 88[0m
+{ [ValidationError: tokens validation failed]
+  stack: 'Error\n    at MongooseError.ValidationError (/root/node_modules/mongoose/lib/error/validation.js:22:16)\n    at model.Document.invalidate (/root/node_modules/mongoose/lib/document.js:1266:32)\n    at /root/node_modules/mongoose/lib/document.js:1141:16\n    at validate (/root/node_modules/mongoose/lib/schematype.js:662:7)\n    at /root/node_modules/mongoose/lib/schematype.js:693:9\n    at Array.forEach (native)\n    at SchemaDate.SchemaType.doValidate (/root/node_modules/mongoose/lib/schematype.js:667:19)\n    at /root/node_modules/mongoose/lib/document.js:1139:9\n    at _combinedTickCallback (node.js:376:9)\n    at process._tickCallback (node.js:407:11)',
+  message: 'tokens validation failed',
+  name: 'ValidationError',
+  errors: 
+   { avatime: 
+      { [ValidatorError: Path `avatime` is required.]
+        properties: [Object],
+        stack: 'Error\n    at MongooseError.ValidatorError (/root/node_modules/mongoose/lib/error/validator.js:25:16)\n    at validate (/root/node_modules/mongoose/lib/schematype.js:661:13)\n    at /root/node_modules/mongoose/lib/schematype.js:693:9\n    at Array.forEach (native)\n    at SchemaDate.SchemaType.doValidate (/root/node_modules/mongoose/lib/schematype.js:667:19)\n    at /root/node_modules/mongoose/lib/document.js:1139:9\n    at _combinedTickCallback (node.js:376:9)\n    at process._tickCallback (node.js:407:11)',
+        message: 'Path `avatime` is required.',
+        name: 'ValidatorError',
+        kind: 'required',
+        path: 'avatime',
+        value: undefined } } }
+[0mPOST /setgetui [32m200 [0m2.154 ms - 46[0m
+[0mPOST /listgroup [32m200 [0m2.109 ms - 46[0m
+[0mPOST /getuserinfo [32m200 [0m2.050 ms - 46[0m
+[0mPOST /getcontactors [32m200 [0m1.223 ms - 46[0m
+[0mPOST /getcontactors [32m200 [0m2.040 ms - 46[0m
+[0mGET /update.json [36m304 [0m2.736 ms - -[0m
+[0mPOST /collectphone [32m200 [0m124.421 ms - 46[0m
+[0mPOST /login [32m200 [0m4.648 ms - 88[0m
+{ [ValidationError: tokens validation failed]
+  stack: 'Error\n    at MongooseError.ValidationError (/root/node_modules/mongoose/lib/error/validation.js:22:16)\n    at model.Document.invalidate (/root/node_modules/mongoose/lib/document.js:1266:32)\n    at /root/node_modules/mongoose/lib/document.js:1141:16\n    at validate (/root/node_modules/mongoose/lib/schematype.js:662:7)\n    at /root/node_modules/mongoose/lib/schematype.js:693:9\n    at Array.forEach (native)\n    at SchemaDate.SchemaType.doValidate (/root/node_modules/mongoose/lib/schematype.js:667:19)\n    at /root/node_modules/mongoose/lib/document.js:1139:9\n    at _combinedTickCallback (node.js:376:9)\n    at process._tickCallback (node.js:407:11)',
+  message: 'tokens validation failed',
+  name: 'ValidationError',
+  errors: 
+   { avatime: 
+      { [ValidatorError: Path `avatime` is required.]
+        properties: [Object],
+        stack: 'Error\n    at MongooseError.ValidatorError (/root/node_modules/mongoose/lib/error/validator.js:25:16)\n    at validate (/root/node_modules/mongoose/lib/schematype.js:661:13)\n    at /root/node_modules/mongoose/lib/schematype.js:693:9\n    at Array.forEach (native)\n    at SchemaDate.SchemaType.doValidate (/root/node_modules/mongoose/lib/schematype.js:667:19)\n    at /root/node_modules/mongoose/lib/document.js:1139:9\n    at _combinedTickCallback (node.js:376:9)\n    at process._tickCallback (node.js:407:11)',
+        message: 'Path `avatime` is required.',
+        name: 'ValidatorError',
+        kind: 'required',
+        path: 'avatime',
+        value: undefined } } }
+[0mPOST /setgetui [32m200 [0m2.285 ms - 46[0m
+[0mPOST /listgroup [32m200 [0m2.091 ms - 46[0m
+[0mPOST /getuserinfo [32m200 [0m2.637 ms - 46[0m
+[0mPOST /getcontactors [32m200 [0m1.417 ms - 46[0m
+[0mPOST /getmycard [32m200 [0m2.065 ms - 46[0m
+[0mGET /update.json [36m304 [0m0.733 ms - -[0m
+[0mPOST /getuserinfo [32m200 [0m4.762 ms - 538[0m
+[0mGET /upload/c6504b6c2c3d0e1191c313a8cce640c4.jpg [32m200 [0m1.822 ms - 207[0m
+OK
+[0mGET /upload/c6504b6c2c3d0e1191c313a8cce640c4.jpg [32m200 [0m4.809 ms - 207[0m
+OK
+[0mGET /upload/head.jpg [36m304 [0m0.348 ms - -[0m
+[0mGET /upload/be7935200919ac8ac87b0604ca02ce9e.jpg [36m304 [0m0.425 ms - -[0m
+[0mPOST /getmycard [32m200 [0m5.442 ms - 451[0m
+[0mGET / [32m200 [0m1.263 ms - 207[0m
+OK
+[0mGET /update.json [32m200 [0m8.063 ms - 192[0m
+[0mGET /upload/c6504b6c2c3d0e1191c313a8cce640c4.jpg [32m200 [0m2.959 ms - 207[0m
+[0mGET /upload/head.jpg [36m304 [0m3.112 ms - -[0m
+[0mPOST /setgetui [32m200 [0m11.379 ms - 41[0m
+[0mPOST /getuserinfo [32m200 [0m10.234 ms - 538[0m
+[0mGET /upload/be7935200919ac8ac87b0604ca02ce9e.jpg [36m304 [0m2.239 ms - -[0m
+OK
+[0mGET /sharecarding.apk [32m200 [0m1.292 ms - 6688292[0m
+[0mGET /update.json [36m304 [0m0.620 ms - -[0m
+[0mGET /sharecarding.apk [32m200 [0m4.565 ms - 6688292[0m
+[0mGET /sharecarding.apk [32m200 [0m0.864 ms - 6688292[0m
+[0mGET /sharecarding.apk [32m200 [0m0.747 ms - 6688292[0m
+[0mGET /update.json [36m304 [0m1.476 ms - -[0m
+[0mPOST /getuserinfo [32m200 [0m16.384 ms - 538[0m
+[0mGET /upload/c6504b6c2c3d0e1191c313a8cce640c4.jpg [32m200 [0m2.713 ms - 207[0m
+OK
+[0mGET /upload/be7935200919ac8ac87b0604ca02ce9e.jpg [36m304 [0m0.826 ms - -[0m
+[0mGET /upload/head.jpg [36m304 [0m0.419 ms - -[0m
+[0mGET /update.json [36m304 [0m0.642 ms - -[0m
+[0mPOST /getmycard [32m200 [0m5.996 ms - 451[0m
+crypto.js:70
+  this._handle.update(data, encoding);
+               ^
+
+TypeError: HashUpdate fail
+    at TypeError (native)
+    at Hash.update (crypto.js:70:16)
+    at Command.callback (/root/models/msgModel.js:112:9)
+    at RedisClient.return_reply (/root/node_modules/redis/index.js:642:25)
+    at /root/node_modules/redis/index.js:307:18
+    at _combinedTickCallback (node.js:376:9)
+    at process._tickCallback (node.js:407:11)
+error: Forever detected script exited with code: 1
+error: Script restart attempt #1
+[0mPOST /sendchgphonecode [32m200 [0m35.939 ms - 46[0m
+[0mGET /update.json [36m304 [0m4.662 ms - -[0m
+[0mPOST /collectphone [32m200 [0m145.940 ms - 46[0m
+crypto.js:70
+  this._handle.update(data, encoding);
+               ^
+
+TypeError: HashUpdate fail
+    at TypeError (native)
+    at Hash.update (crypto.js:70:16)
+    at Command.callback (/root/models/msgModel.js:43:9)
+    at RedisClient.return_reply (/root/node_modules/redis/index.js:642:25)
+    at /root/node_modules/redis/index.js:307:18
+    at _combinedTickCallback (node.js:376:9)
+    at process._tickCallback (node.js:407:11)
+error: Forever detected script exited with code: 1
+error: Script restart attempt #2
+[0mPOST /sendrcode [32m200 [0m36.316 ms - 46[0m
+[0mGET /update.json [32m200 [0m6.100 ms - 192[0m
+[0mGET /update.json [36m304 [0m2.547 ms - -[0m
+[0mGET /update.json [36m304 [0m0.769 ms - -[0m
+[0mGET /update.json [32m200 [0m1.510 ms - 192[0m
+[0mPOST /collectphone [32m200 [0m21.826 ms - 46[0m
+[0mGET /update.json [32m200 [0m0.962 ms - 192[0m
+[0mGET /update.json [36m304 [0m0.472 ms - -[0m
+[0mPOST /collectphone [32m200 [0m142.029 ms - 46[0m
+crypto.js:70
+  this._handle.update(data, encoding);
+               ^
+
+TypeError: HashUpdate fail
+    at TypeError (native)
+    at Hash.update (crypto.js:70:16)
+    at Command.callback (/root/models/msgModel.js:43:9)
+    at RedisClient.return_reply (/root/node_modules/redis/index.js:642:25)
+    at /root/node_modules/redis/index.js:307:18
+    at _combinedTickCallback (node.js:376:9)
+    at process._tickCallback (node.js:407:11)
+error: Forever detected script exited with code: 1
+error: Script restart attempt #3
+[0mPOST /sendrcode [32m200 [0m38.235 ms - 46[0m
+[0mPOST /sendrcode [32m200 [0m3.663 ms - 46[0m
+[0mGET /update.json [36m304 [0m4.424 ms - -[0m
+[0mPOST /collectphone [32m200 [0m21.086 ms - 46[0m
+[0mGET / [32m200 [0m12.328 ms - 207[0m
+OK
+[0mGET /stylesheets/style.css [32m200 [0m3.942 ms - 111[0m
+[0mGET /favicon.ico [32m200 [0m1.495 ms - 67646[0m
+[0mGET /update.json [36m304 [0m1.666 ms - -[0m
+[0mPOST /collectphone [32m200 [0m131.953 ms - 46[0m
+[0mGET /update.json [36m304 [0m1.278 ms - -[0m
+[0mPOST /collectphone [32m200 [0m119.811 ms - 46[0m
+crypto.js:70
+  this._handle.update(data, encoding);
+               ^
+
+TypeError: HashUpdate fail
+    at TypeError (native)
+    at Hash.update (crypto.js:70:16)
+    at Command.callback (/root/models/msgModel.js:43:9)
+    at RedisClient.return_reply (/root/node_modules/redis/index.js:642:25)
+    at /root/node_modules/redis/index.js:307:18
+    at _combinedTickCallback (node.js:376:9)
+    at process._tickCallback (node.js:407:11)
+error: Forever detected script exited with code: 1
+error: Script restart attempt #4
+[0mPOST /sendrcode [32m200 [0m36.650 ms - 46[0m

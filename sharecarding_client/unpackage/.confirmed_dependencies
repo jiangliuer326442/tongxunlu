@@ -1,0 +1,295 @@
+{
+  "guide.html": {
+    "resources": [
+      "images/guide1.png",
+      "images/guide4.png",
+      "images/guide2.png",
+      "images/guide3.png",
+      "css/mui.min.css",
+      "js/mui.min.js"
+    ],
+    "refer": []
+  },
+  "login.html": {
+    "resources": [
+      "js/sqlite.js",
+      "js/mui.enterfocus.js",
+      "js/md5.js",
+      "js/common.js",
+      "images/bg.png",
+      "js/mui.min.js",
+      "css/mui.min.css"
+    ],
+    "refer": [
+      "frame.html",
+      "reg.html"
+    ]
+  },
+  "fill_number.html": {
+    "resources": [
+      "js/common.js",
+      "logo.png",
+      "images/bg.png",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "js/update.js",
+      "js/arttmpl.js",
+      "js/md5.js"
+    ],
+    "refer": [
+      "guide.html",
+      "login.html",
+      "frame.html",
+      "reg.html"
+    ]
+  },
+  "groups.html": {
+    "resources": [
+      "fonts/mui.ttf",
+      "images/group_empty.jpg",
+      "js/common.js",
+      "js/mui.min.js",
+      "css/iconfont.css",
+      "css/mui.min.css",
+      "fonts/iconfont.ttf"
+    ],
+    "refer": [
+      "scan.html",
+      "buildgroup.html",
+      "addgroup.html",
+      "gmembers.html",
+      "ginfo.html"
+    ]
+  },
+  "ucenter.html": {
+    "resources": [
+      "images/new.png",
+      "js/qrcode.js",
+      "js/sqlite.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/iconfont.css",
+      "js/common.js",
+      "js/mui.min.js",
+      "logo.png"
+    ],
+    "refer": [
+      "card.html",
+      "chgphone.html",
+      "chgpwd.html",
+      "teachers.html"
+    ]
+  },
+  "frame.html": {
+    "resources": [
+      "js/common.js",
+      "js/mui.min.js",
+      "css/iconfont.css",
+      "css/mui.min.css",
+      "fonts/iconfont.ttf",
+      "images/dot.png",
+      "contactors.html"
+    ],
+    "refer": [
+      "groups.html",
+      "ucenter.html",
+      "records.html",
+      "contactors.html"
+    ]
+  },
+  "cardview.html": {
+    "resources": [
+      "logo.png",
+      "js/md5.js",
+      "js/common.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "fonts/mui.ttf"
+    ],
+    "refer": []
+  },
+  "contactors.html": {
+    "resources": [
+      "js/sortPhoneNumbers.js",
+      "css/mui.indexedlist.css",
+      "js/mui.indexedlist.js",
+      "js/common.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/iconfont.css",
+      "css/mui.min.css",
+      "js/sqlite.js"
+    ],
+    "refer": [
+      "addcontactor.html",
+      "editcontactor.html",
+      "cardview.html",
+      "scan.html"
+    ]
+  },
+  "records.html": {
+    "resources": [
+      "js/sortPhoneNumbers.js",
+      "js/sqlite.js",
+      "css/mui.indexedlist.css",
+      "js/mui.indexedlist.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/iconfont.css",
+      "js/common.js",
+      "js/mui.min.js"
+    ],
+    "refer": []
+  },
+  "addcontactor.html": {
+    "resources": [
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "js/common.js"
+    ],
+    "refer": [
+      "contactors.html"
+    ]
+  },
+  "editcontactor.html": {
+    "resources": [
+      "js/common.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "fonts/mui.ttf"
+    ],
+    "refer": []
+  },
+  "gmembers.html": {
+    "resources": [
+      "js/common.js",
+      "js/mui.min.js",
+      "js/sortPhoneNumbers.js",
+      "fonts/mui.ttf",
+      "css/iconfont.css",
+      "css/mui.min.css",
+      "css/mui.indexedlist.css",
+      "js/mui.indexedlist.js"
+    ],
+    "refer": []
+  },
+  "reg.html": {
+    "refer": [
+      "frame.html",
+      "fill_number.html"
+    ],
+    "resources": [
+      "js/common.js",
+      "js/md5.js",
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "js/sqlite.js",
+      "images/bg.png",
+      "fonts/mui.ttf"
+    ]
+  },
+  "card.html": {
+    "refer": [
+      "editcard.html"
+    ],
+    "resources": [
+      "js/common.js",
+      "js/md5.js",
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "logo.png",
+      "fonts/mui.ttf"
+    ]
+  },
+  "scan.html": {
+    "href": "scan.html",
+    "resources": [
+      "js/mui.min.js",
+      "js/common.js"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "addgroup.html": {
+    "href": "addgroup.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "js/common.js"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "ginfo.html": {
+    "href": "ginfo.html",
+    "resources": [
+      "css/mui.min.css",
+      "css/iconfont.css",
+      "js/mui.min.js",
+      "js/qrcode.js",
+      "js/common.js",
+      "logo.png",
+      "fonts/mui.ttf",
+      "fonts/iconfont.ttf"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "buildgroup.html": {
+    "href": "buildgroup.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "js/common.js"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "editcard.html": {
+    "href": "editcard.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "js/common.js",
+      "fonts/mui.ttf"
+    ],
+    "refer": [
+      "card.html"
+    ],
+    "priority": 0
+  },
+  "chgphone.html": {
+    "href": "chgphone.html",
+    "resources": [
+      "js/common.js",
+      "js/md5.js",
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "fonts/mui.ttf"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "chgpwd.html": {
+    "href": "chgpwd.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "js/mui.enterfocus.js",
+      "js/common.js",
+      "js/md5.js",
+      "fonts/mui.ttf"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "teachers.html": {
+    "resources": [
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "js/mui.min.js"
+    ]
+  }
+}

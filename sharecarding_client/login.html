@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+		<style>
+			.area {
+				margin: 20px auto 0px auto;
+			}
+			.mui-input-group {
+				margin-top: 10px;
+			}
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			.mui-input-group label {
+				width: 22%;
+			}
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				width: 78%;
+			}
+			.mui-checkbox input[type=checkbox],
+			.mui-radio input[type=radio] {
+				top: 6px;
+			}
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			.mui-btn {
+				padding: 10px;
+			}
+			.link-area {
+				display: block;
+				margin-top: 25px;
+				text-align: center;
+			}
+			.spliter {
+				color: #bbb;
+				padding: 0px 8px;
+			}
+			.oauth-area {
+				position: absolute;
+				bottom: 20px;
+				left: 0px;
+				text-align: center;
+				width: 100%;
+				padding: 0px;
+				margin: 0px;
+			}
+			.oauth-area .oauth-btn {
+				display: inline-block;
+				width: 50px;
+				height: 50px;
+				background-size: 30px 30px;
+				background-position: center center;
+				background-repeat: no-repeat;
+				margin: 0px 20px;
+				/*-webkit-filter: grayscale(100%); */
+				
+				border: solid 1px #ddd;
+				border-radius: 25px;
+			}
+			.oauth-area .oauth-btn:active {
+				border: solid 1px #aaa;
+			}
+		</style>
+
+	</head>
+
+	<body style="background: url(images/bg.png);">
+		<header class="mui-bar mui-bar-nav" style="background-color: transparent;">
+			<h1 class="mui-title">登录</h1>
+		</header>
+		<div class="mui-content" style="background-color: transparent;">
+			<form id='login-form' class="mui-input-group">
+				<div class="mui-input-row">
+					<label>账号</label>
+					<input id='account' type="number" class="mui-input-clear mui-input" placeholder="请输入您当前的手机号">
+				</div>
+				<div class="mui-input-row">
+					<label>密码</label>
+					<input id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入登录密码">
+				</div>
+			</form>
+			<div class="mui-content-padded">
+				<button id='login' class="mui-btn mui-btn-block mui-btn-primary">登录</button>
+				<div class="link-area"><a id='reg'>注册账号</a> 
+					<!--<span class="spliter">|</span> 
+					<a id='forgetPassword'>忘记密码</a>-->
+				</div>
+			</div>
+			<div class="mui-content-padded oauth-area">
+
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.enterfocus.js"></script>
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/md5.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/sqlite.js"></script>
+		<script>
+			var db = new DB('sharecarding',1024*1024*2);
+			var lat = "";
+			var lng = "";
+			(function($, doc) {
+				$.init({
+					statusBarBackground: '#f7f7f7'
+				});
+				$.plusReady(function() {
+					plus.webview.currentWebview().setStyle({
+						softinputMode: "adjustResize"
+					});
+					var showKeyboard = function() {
+						if ($.os.ios) {
+							var webView = plus.webview.currentWebview().nativeInstanceObject();
+							webView.plusCallMethod({
+								"setKeyboardDisplayRequiresUserAction": false
+							});
+						} else {
+							var Context = plus.android.importClass("android.content.Context");
+							var InputMethodManager = plus.android.importClass("android.view.inputmethod.InputMethodManager");
+							var main = plus.android.runtimeMainActivity();
+							var imm = main.getSystemService(Context.INPUT_METHOD_SERVICE);
+							imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+							//var view = ((ViewGroup)main.findViewById(android.R.id.content)).getChildAt(0);
+							imm.showSoftInput(main.getWindow().getDecorView(), InputMethodManager.SHOW_IMPLICIT);
+							//alert("ll");
+						}
+					};
+					plus.geolocation.getCurrentPosition( function ( p ) {
+						lat = p.coords.latitude;
+						lng = p.coords.longitude;
+						
+					}, function ( e ) {
+						 $.alert( "Geolocation error: " + e.message );
+					} );
+					//检查 "登录状态/锁屏状态" 结束
+					var loginButton = doc.getElementById('login');
+					var accountBox = doc.getElementById('account');
+					var passwordBox = doc.getElementById('password');
+					var regButton = doc.getElementById('reg');
+					var forgetButton = doc.getElementById('forgetPassword');
+					loginButton.addEventListener('tap', function(event) {
+						var loginInfo = {
+							account: accountBox.value,
+							password: passwordBox.value
+						};
+						if(loginInfo.password.length<4){
+							$.alert("设定的手势太简单了");
+							return;
+						}
+						plus.nativeUI.showWaiting("正在登录");
+						password = hex_md5(loginInfo.password);
+						$.ajax(server+'/login',{
+							data:{
+								phone: loginInfo.account,
+								password: password,
+								lng: lng,
+								lat: lat,
+								uuid:plus.device.uuid
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								if(data.status==200){
+									db.query("CREATE TABLE IF NOT EXISTS contacts (phone text , name text , fletter text , photo text , address text , city text , area text , company text , position text)",function(){
+										db.query("CREATE TABLE IF NOT EXISTS records (phone text , name text , fletter text , photo text , address text, btime text)",function(){
+											plus.nativeUI.closeWaiting();
+											setToken(data.data.token);
+											setTimeout("mui.openWindow({url:'frame.html', id:'frame.html'})",2000);
+											$.toast("登录成功");
+										});
+									});
+								}else{
+									plus.nativeUI.closeWaiting();
+									$.alert(data.info);
+								}
+							},
+							error:function(xhr,type,errorThrown){
+							}
+						});
+					});
+					$.enterfocus('#login-form input', function() {
+						$.trigger(loginButton, 'tap');
+					});
+					regButton.addEventListener('tap', function(event) {
+						$.openWindow({
+							url: 'reg.html',
+							id: 'reg',
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					}, false);
+//					forgetButton.addEventListener('tap', function(event) {
+//						
+//					}, false);
+				});
+			}(mui, document));
+			
+			//添加newId自定义事件监听
+			window.addEventListener('setphone',function(event){
+				var phone = event.detail.phone;
+				mui("#account")[0].value = phone;
+			});
+		</script>
+	</body>
+
+</html>

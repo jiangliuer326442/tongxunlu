@@ -1,0 +1,7 @@
+show dbs
+use sharecarding
+show collection
+show collections
+db.users.find()
+show collections
+db.users.find()
